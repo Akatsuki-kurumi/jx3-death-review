@@ -1,0 +1,23 @@
+{
+  "name": "zhe-zha-si-de",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Akatsuki-kurumi",
+  "scripts": {
+    "preview": "node preview-server.cjs",
+    "test": "node --test test/*.test.cjs",
+    "start": "electron .",
+    "package": "node scripts/package-desktop.cjs"
+  },
+  "dependencies": {
+    "ajv": "8.17.1"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "45.0.0"
+  },
+  "productName": "这咋死的",
+  "description": "剑网三竞技场战斗复盘工具",
+  "main": "desktop/main.cjs"
+}

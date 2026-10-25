@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>这咋死的 · 初始配置</title>
+<link rel="icon" href="/public/app-icon.jpg">
+<style>
+
+:root{color-scheme:dark;--bg:#101513;--panel:#18201c;--line:#303a32;--muted:#929d94;--text:#edf0e9;--accent:#d3edac;--green:#a9ca8b}*{box-sizing:border-box}body{margin:0;background:#0c100e;color:var(--text);font-family:"Microsoft YaHei UI","Microsoft YaHei",sans-serif;font-size:14px}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.app{max-width:1440px;min-height:100vh;margin:auto;background:var(--bg)}header{height:84px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 46px}.brand{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:700;letter-spacing:2px}.brand-icon{width:32px;height:32px;border:1px solid #b5cf94;border-radius:9px;display:grid;place-items:center;color:var(--accent);font-size:23px}.header-note{font-size:12px;color:var(--muted);letter-spacing:1px}.layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 84px)}aside{padding:48px 30px 30px 44px;border-right:1px solid var(--line);display:flex;flex-direction:column}.eyebrow{font-size:11px;font-weight:600;letter-spacing:2px;color:var(--green)}.sidebar-title{font-size:18px;margin:12px 0 36px}.step{display:flex;gap:13px;position:relative;padding-bottom:36px;color:#7e8980}.step:not(:last-child):after{content:"";position:absolute;left:14px;top:35px;bottom:7px;width:1px;background:var(--line)}.number{border:1px solid #3b463e;width:29px;height:29px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex-shrink:0}.step.active{color:var(--text)}.step.active .number{background:var(--accent);border-color:var(--accent);color:#23311d}.step.done .number{border-color:var(--green);color:var(--green)}.step strong{display:block;font-weight:500;margin:4px 0 7px}.step small{font-size:11px;color:#7e8980}.aside-bottom{margin-top:auto;padding-top:90px;font-size:11px;line-height:1.9;color:#7e8980}.aside-bottom span{color:var(--green)}main{padding:45px 52px 26px;max-width:1180px;width:100%;margin:auto}.topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.pill{border:1px solid var(--line);border-radius:20px;padding:6px 10px;color:#aeb8ac;font-size:11px}h1{font-size:34px;letter-spacing:-1px;line-height:1.35;margin:0 0 14px;font-weight:600}p{color:var(--muted);line-height:1.9;margin:0}.content{min-height:425px;margin-top:30px}.hero{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:15px;overflow:hidden;min-height:350px;background:linear-gradient(125deg,#212c22,#161d19)}.hero-copy{padding:40px 30px;display:flex;flex-direction:column;justify-content:center}.hero h2{font-size:27px;line-height:1.65;font-weight:500;margin:13px 0 20px}.hero small{font-size:12px;line-height:1.9;color:var(--muted)}.arena{position:relative;min-height:340px;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse,#475b3338,transparent 68%)}.orbit{position:absolute;width:260px;height:260px;border:1px solid #9ab77b25;border-radius:50%}.orbit:after{content:"";position:absolute;inset:30px;border:1px dashed #9ab77b30;border-radius:50%}.vs{color:#afc594;font-family:Georgia,serif;font-size:37px;font-style:italic}.team{position:absolute;display:flex;gap:10px;transform:rotate(-14deg)}.team.a{top:77px;left:31px}.team.b{bottom:72px;right:30px}.fighter{display:grid;place-items:center;background:#283529;border:1px solid #728d59;width:58px;height:66px;border-radius:12px;color:#d0e6b5;box-shadow:0 8px 20px #0004}.b .fighter{background:#352b27;border-color:#866a58;color:#dac3ad}.fighter svg{width:25px;height:25px}.scene-caption{position:absolute;bottom:24px;font-size:10px;letter-spacing:3px;color:#829376}.features{display:flex;justify-content:space-between;gap:16px;padding:22px 4px;color:#a8b3a5;font-size:12px}.features span:before{content:"✦";color:var(--green);margin-right:9px}.instruction-grid{display:grid;grid-template-columns:1.13fr 1fr;gap:28px}.guide{border:1px solid var(--line);border-radius:13px;background:#141b17;overflow:hidden}.guide-head{padding:15px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;color:#94a18e}.menu-scene{padding:24px;min-height:315px;background:radial-gradient(ellipse at 20% 70%,#34402b44,transparent 70%)}.crumb{font-size:12px;color:#8e9c87;display:flex;gap:9px;align-items:center;margin-bottom:20px}.crumb b{color:#c9d8bd;font-weight:400}.game-menu{border:1px solid #56674b;background:#1c251e;border-radius:7px;padding:10px;box-shadow:0 15px 35px #0004}.menu-row{padding:10px 11px;color:#7b8976;font-size:13px;display:flex;align-items:center;gap:10px;min-height:39px}.menu-row.selected{color:#d7ebc5;background:#afce8c10;border-radius:4px}.check{height:16px;width:16px;border:1px solid #58684d;display:inline-grid;place-items:center;flex-shrink:0;font-size:12px;color:#182210}.selected .check{background:var(--accent);border-color:var(--accent)}.menu-divider{height:1px;background:#3a4933;margin:9px 10px}.highlight-row{border:1px solid var(--accent);color:var(--accent);border-radius:5px;background:#b7d99514;justify-content:space-between}.guide-foot{padding:12px 20px;border-top:1px solid var(--line);font-size:10px;color:#7f8d78}.explain{padding:7px 0}.explain h3{font-size:16px;font-weight:500;margin:0 0 22px}.requirement{display:flex;gap:12px;margin-bottom:23px}.mini-check{color:var(--green);border:1px solid #526048;border-radius:50%;height:21px;width:21px;display:grid;place-items:center;font-size:11px;flex-shrink:0}.requirement strong{font-weight:500;font-size:13px}.requirement p{font-size:12px;margin-top:5px}.note{border-left:2px solid #7c9265;padding:3px 0 3px 14px;font-size:12px;line-height:1.9;color:#9ba794;margin-top:24px}.confirm{display:flex;align-items:center;gap:9px;margin-top:22px;font-size:12px;color:#bdc8b5;cursor:pointer}.confirm input{accent-color:var(--accent);width:16px;height:16px}.primary,.secondary{border-radius:7px;padding:12px 22px;border:1px solid transparent;font-size:13px;display:inline-flex;gap:25px;align-items:center;justify-content:center}.primary{background:var(--accent);color:#22301d;font-weight:600}.primary:hover{background:#e0f6bd}.primary:disabled{background:#34402f;color:#7a886f;cursor:not-allowed}.secondary{background:transparent;border-color:#3a4637;color:#c6d1bf}.secondary:hover{background:#252f23}footer{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;align-items:center;gap:16px}.footer-hint{font-size:11px;color:#7f8b79}.actions{display:flex;gap:10px}.path-box{padding:20px;border:1px solid #3c4934;border-radius:9px;background:#1b241c;margin-top:22px}.path-box label{display:block;color:#a6b599;font-size:11px;margin-bottom:12px}.path-value{font-size:13px;color:#dae7d1;word-break:break-all;line-height:1.7;margin-bottom:15px}.success-icon{height:54px;width:54px;border-radius:50%;display:grid;place-items:center;font-size:26px;background:#d3edac15;color:var(--accent);margin-bottom:20px}.complete{padding:42px;border:1px solid var(--line);border-radius:14px;background:#1b251c}.complete h2{font-size:25px;font-weight:500;margin:0 0 13px}dialog{border:1px solid #4c5d40;border-radius:15px;width:540px;max-width:calc(100vw - 32px);padding:30px;background:#1b231d;color:var(--text);box-shadow:0 30px 100px #0009}dialog::backdrop{background:#070d09b8;backdrop-filter:blur(5px)}.dialog-top{display:flex;justify-content:space-between;align-items:center}dialog h2{font-size:22px;margin:0 0 16px}.close{border:0;background:none;font-size:24px;color:#9ca895;padding:0 3px;align-self:flex-start}dialog p{font-size:12px}.input-label{display:block;margin:24px 0 9px;font-size:12px}input[type=text]{width:100%;border:1px solid #526447;border-radius:7px;background:#111911;color:#e2edd8;padding:13px;font-size:13px}input::placeholder{color:#697762}.error{color:#e8b6a2;min-height:28px;padding-top:7px;font-size:11px}.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.privacy{font-size:11px;color:#829078;margin-top:9px}.hidden{display:none!important}@media(min-width:1500px){.app{border-left:1px solid var(--line);border-right:1px solid var(--line)}}@media(max-width:1000px){header{padding:0 25px}.layout{grid-template-columns:205px 1fr}aside{padding-left:25px;padding-right:20px}main{padding:32px 28px}.instruction-grid{gap:20px;grid-template-columns:1fr 1fr}.menu-scene{padding:17px}.hero-copy{padding:30px 22px}.fighter{width:45px}.team.a{left:15px}.team.b{right:15px}}@media(max-width:760px){header{height:68px}.header-note{display:none}.layout{display:block}aside{border-right:none;border-bottom:1px solid var(--line);padding:20px 22px}.sidebar-title,.aside-bottom,aside>.eyebrow,.step small{display:none}.steps{display:flex;justify-content:space-between}.step{padding:0;gap:7px;font-size:11px}.step:after{display:none}.number{width:23px;height:23px}.step strong{margin:4px 0}main{padding:28px 22px}h1{font-size:27px}.content{min-height:0;margin-bottom:28px}.hero,.instruction-grid{grid-template-columns:1fr}.arena{min-height:270px}.team.a{left:20%;top:40px}.team.b{right:20%;bottom:45px}.features{flex-wrap:wrap}.explain{padding:10px 0}footer{align-items:flex-start;flex-wrap:wrap}.actions{margin-left:auto}.footer-hint{line-height:1.7}.menu-scene{min-height:0}}
+/* Compact onboarding */
+.brand-icon{display:block;object-fit:contain;flex-shrink:0}
+.llm-setup{max-width:500px;margin:0 auto;padding:12px 0 24px}.llm-intro{font-size:13px;margin-bottom:28px}.llm-field{margin-bottom:22px}.llm-field label{display:block;font-size:13px;color:#d6e1ce;margin-bottom:10px}.llm-field input{width:100%;min-height:46px;border:1px solid #526447;border-radius:7px;background:#111911;color:#e2edd8;padding:13px;font-size:13px}.llm-field input:focus{border-color:var(--accent)}.llm-field small{display:block;font-size:11px;color:#829078;margin-top:8px;line-height:1.7}.llm-session-note{font-size:11px;color:#829078}.skip-setup{color:#a5b29b;border-color:transparent}.skip-setup:hover{border-color:#3a4637}@media(max-width:760px){.steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 18px}.llm-setup{padding-top:0}.llm-intro{font-size:12px}.llm-session-note{line-height:1.8}.actions{gap:8px}}
+.topline{justify-content:flex-end;margin-bottom:20px}.content{min-height:360px;margin-top:20px;margin-bottom:28px}.hero{display:block}.arena{max-width:420px;margin:auto}.scene-caption{display:none}.entry-path{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;padding:16px 18px;border:1px solid var(--line);border-radius:9px;margin-bottom:28px;font-size:13px;color:#c2cdbb}.entry-path i{font-style:normal;color:#6d7c62}.entry-current{color:var(--accent)}.setup-panel{max-width:430px;margin:0 auto}.record-switch{display:flex;align-items:center;gap:12px;justify-content:center;padding:14px;border:1px solid #536647;border-radius:8px;background:#202c20;color:var(--accent)}.record-switch .check{background:var(--accent);border-color:var(--accent)}.flow-arrow{display:block;text-align:center;color:#819b6b;font-size:23px;margin:12px}.menu-scene{min-height:0;padding:20px}.setup-panel .menu-row{padding:13px 12px;font-size:14px}.compact-note{text-align:center;font-size:12px;margin-top:14px}.explain{align-self:center}.path-box{margin-top:18px}.dialog-top{justify-content:flex-end;margin-bottom:8px}.input-label{margin-top:18px}.actions{margin-left:auto}#subtitle:empty{display:none}@media(max-width:760px){.content{min-height:0}.entry-path{font-size:12px;gap:8px}.actions{flex-wrap:wrap}.primary{gap:12px;padding:12px 15px}.setup-panel{width:100%}}
+/* First-screen typographic treatment */
+.impact-hero{container-type:inline-size;position:relative;min-height:360px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #3b4934;border-radius:12px;background:radial-gradient(ellipse at 75% 100%,#76944725,transparent 65%),#151d17}
+.impact-hero:before{content:"";position:absolute;top:27px;left:28px;width:48px;height:5px;background:var(--accent);box-shadow:0 0 24px #d3edac24}
+.impact-hero:after{content:"";position:absolute;right:29px;bottom:25px;width:74px;height:13px;background:repeating-linear-gradient(125deg,transparent 0 8px,#d3edac45 8px 10px)}
+.impact-text{position:relative;font-size:clamp(48px,15cqw,148px);line-height:1.25;font-weight:900;letter-spacing:-.055em;white-space:nowrap;transform:skew(-7deg);color:#f2f4ea;text-shadow:0 8px 0 #0003;padding-right:.08em}
+.impact-text span{color:var(--accent)}.welcome .content{min-height:0}.welcome #next{min-width:166px;font-size:21px;font-weight:800;padding:15px 25px;gap:35px}.welcome footer{border-top:none;padding-top:0}
+@media(max-width:760px){.impact-hero{min-height:290px}.impact-hero:before{top:22px;left:22px}.welcome #next{font-size:19px}}
+/* Full-screen opening */
+.app.landing{max-width:none;min-height:100svh;border:0;background:radial-gradient(ellipse at 50% 48%,#26352066 0,transparent 62%),#101513}
+.landing header,.landing aside,.landing .topline,.landing #subtitle,.landing #hint{display:none}
+.landing .layout{display:flex;min-height:100svh}
+.landing main{width:100%;max-width:none;min-height:100svh;margin:0;padding:32px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:52px}
+.landing .content{width:min(100%,1050px);min-height:0;margin:0}
+.landing .impact-hero{min-height:0;border:0;border-radius:0;background:none;overflow:visible}
+.landing .impact-hero:before,.landing .impact-hero:after{display:none}
+.landing .impact-text{font-size:clamp(48px,15cqw,158px);line-height:1.3;text-shadow:0 10px 0 #0002}
+.landing footer{border:0;padding:0;display:flex;justify-content:center;width:100%}
+.landing .actions{margin:0}
+.landing #next{min-width:200px;min-height:60px;padding:16px 38px;font-size:20px;border-radius:8px;letter-spacing:2px}
+@media(max-width:760px){.landing main{gap:38px}.landing #next{min-width:180px;min-height:54px;font-size:18px}}
+/* Combat record library */
+.library aside,.library .topline,.library footer,.library .header-note{display:none}
+.library .layout{display:block;min-height:calc(100svh - 84px)}
+.library main{max-width:1040px;margin:0 auto;padding:38px 48px 64px}
+.library .content{margin:0;min-height:0}
+.library-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;color:#c7d7bb;font-size:14px}
+.library-toolbar button{padding:8px 18px;font-size:12px}
+.records-table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;text-align:left}
+.records-table th{color:#8e9e85;background:#19221b;font-weight:400;font-size:12px;padding:17px 24px;border-bottom:1px solid var(--line)}
+.records-table th span{margin-left:8px;color:var(--green)}
+.records-table td{padding:20px 24px;border-bottom:1px solid #293228;background:#141c16;font-size:14px}
+.records-table tr:last-child td{border-bottom:0}
+.records-table td:first-child{font-variant-numeric:tabular-nums;color:#a4b399;width:56%;letter-spacing:.5px}
+.records-table td:last-child{color:#e0ead7}
+.records-table tr:hover td{background:#202b20}
+.empty-records{border:1px solid var(--line);border-radius:12px;min-height:350px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;text-align:center;padding:30px}
+.empty-records>span{font-size:45px;color:#9cb782}
+@media(max-width:760px){.library main{padding:24px 18px}.library header{gap:10px}.library header button{padding:10px 12px;font-size:12px}.records-table th,.records-table td{padding:16px 12px}.records-table td{font-size:12px}.records-table td:first-child{letter-spacing:0}}
+.header-actions{display:flex;align-items:center;gap:10px;margin-left:auto}@media(max-width:760px){.library header{height:auto;min-height:68px;padding-top:14px;padding-bottom:14px;flex-wrap:wrap}.header-actions{flex-wrap:wrap;justify-content:flex-end;gap:8px}}
+
+/* Individual battle */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.records-table td:first-child{width:48%}.record-action{text-align:right;white-space:nowrap;width:110px}.review-button{display:inline-flex;align-items:center;gap:20px;background:#d3edac10;border:1px solid #596b44;border-radius:6px;color:var(--accent);padding:8px 16px;font-size:12px}.review-button:hover{background:var(--accent);color:#23311d}
+.battle-detail main{max-width:1200px;padding-top:28px}.battle-toolbar{display:flex;gap:24px;align-items:center;padding-bottom:25px;border-bottom:1px solid var(--line)}.battle-toolbar button{padding:10px 14px;font-size:12px}.battle-meta{display:flex;flex-direction:column;gap:6px}.battle-meta strong{font-size:19px;font-weight:500}.battle-meta time{font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}.global-review-button{margin-left:auto;flex-shrink:0}.global-review-button:disabled{opacity:.65;cursor:not-allowed;background:transparent}
+.team-notice{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#9bab90;font-size:12px;margin:23px 0}.team-notice span{color:#7f8e79}.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}.team-heading{display:flex;align-items:center;justify-content:space-between;padding:0 2px 13px;color:var(--accent);font-size:16px}.team-heading small{font-size:11px;color:#89967e}.team-opponent .team-heading{color:#d6b8a0}.team-players{display:grid;gap:13px}.player-card{padding:20px 22px;border:1px solid #3c4b35;border-left:3px solid #a9ca8b;border-radius:10px;background:linear-gradient(120deg,#202c21,#19221b);min-width:0}.team-opponent .player-card{border-color:#504337;border-left-color:#b2947a;background:linear-gradient(120deg,#2a2620,#201e1b)}.player-identity{display:flex;align-items:center;gap:12px}.kungfu-mark{display:grid;place-items:center;height:42px;width:42px;flex-shrink:0;border:1px solid #79915e55;border-radius:10px;background:#bbd7970a;color:#c1d4aa;font-size:22px;font-family:"KaiTi","Microsoft YaHei",sans-serif}.team-opponent .kungfu-mark{color:#d3b99f;border-color:#ab8e7055;background:#c59e7a0a}.player-name-block{min-width:0}.kungfu-name{font-size:17px;font-weight:600;color:#e1ead8}.player-name{font-size:12px;color:#9eaa94;line-height:1.6;margin-top:4px;overflow-wrap:anywhere}.team-opponent .player-name{color:#b1a18e}.hp-block{display:flex;justify-content:space-between;align-items:baseline;gap:15px;margin-top:21px}.hp-label{font-size:11px;color:#9ca991}.hp-value{font-size:25px;font-weight:600;letter-spacing:.6px;font-variant-numeric:tabular-nums;line-height:1.3}.hp-unknown .hp-value{color:#9ca493;font-size:21px;font-weight:400}.hp-evidence{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px;min-height:19px}.evidence-chip{font-size:10px;color:#9cac90;padding:3px 7px;border:1px solid #6d80522e;border-radius:4px;line-height:1.4}.evidence-chip.backfilled{color:#dfc994;border-color:#a0884c55;background:#9f80350c}.evidence-chip.discrepancy{color:#d4b89f;border-color:#ad80534d}.evidence-chip.unresolved{color:#9aa294;border-color:#737c6850}.unassigned-team{margin-top:24px}.unassigned-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.unassigned-team .player-card{border-color:#3d4539;border-left-color:#79866b;background:#1b221b}.unassigned-team .team-heading{color:#b3bda8}.battle-footnote{font-size:11px;color:#8d9a83;margin-top:16px;line-height:1.8}.battle-loading{display:flex;align-items:center;justify-content:center;gap:14px;min-height:380px;color:#a7b59b;font-size:13px}.loading-ring{width:20px;height:20px;border:2px solid #405034;border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.loading-ring{animation:none}}
+@media(max-width:760px){.team-grid,.unassigned-grid{grid-template-columns:1fr}.team-grid{gap:25px}.battle-toolbar{gap:15px;flex-wrap:wrap}.player-card{padding:18px}.hp-value{font-size:23px}.record-action{width:auto}.review-button{padding:8px 10px;gap:8px}.records-table td:first-child{width:auto}.records-table th,.records-table td{padding:15px 9px}}
+
+/* Schema 1.2.0: gear score, cached icons, full talent descriptions */
+.player-card{padding:17px 19px}.player-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.player-identity{min-width:0;flex:1}.player-name{font-size:13px;margin:0;color:#d3ddc9;line-height:1.65}.team-opponent .player-name{color:#ded0c2}.score-block{text-align:right;flex-shrink:0;display:flex;flex-direction:column;gap:4px}.score-label{font-size:10px;color:#9fae94}.score-value{font-size:28px;font-weight:650;line-height:1.15;letter-spacing:.5px;font-variant-numeric:tabular-nums}.score-value.value-unknown{font-size:23px;color:#a4ad9b;font-weight:400}
+.health-line{display:flex;align-items:center;flex-wrap:wrap;justify-content:flex-end;gap:6px 9px;margin:12px 0 15px;font-size:11px;color:#9aa78e}.health-line .hp-value,.hp-unknown .health-line .hp-value{font-size:12px;letter-spacing:0;font-weight:400;line-height:1.4;color:#b9c6ac}.health-line .evidence-chip{font-size:9px;padding:2px 5px}
+.talent-section{border-top:1px solid #8a9d7130;padding-top:12px}.talent-caption{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:10px;color:#8d9c80;margin-bottom:9px}.talent-status{color:#c2af86;font-size:9px}.talent-icons{display:flex;flex-wrap:wrap;gap:7px;align-items:center}.talents-unknown{font-size:12px;color:#a3ac99;padding:5px 0}
+.card-icon{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;border:1px solid #66795470;border-radius:6px;background:#101710;color:#c8d7ba;min-width:30px;min-height:30px;cursor:help;overflow:hidden}.card-icon:hover{border-color:#d3edac;box-shadow:0 0 0 2px #d3edac18}.card-icon:focus-visible{outline:2px solid #d3edac;outline-offset:3px}.card-icon img{display:block;width:30px;height:30px;object-fit:contain}.kungfu-icon{border-radius:9px}.kungfu-icon img{width:42px;height:42px}.card-icon.icon-fallback{max-width:100%;padding:5px 8px;min-height:32px;overflow:visible}.icon-fallback-text{font-size:11px;line-height:1.5;overflow-wrap:anywhere;white-space:normal}.kungfu-icon.icon-fallback{max-width:105px;min-height:43px}.kungfu-icon .icon-fallback-text{font-size:12px}.card-icon img[hidden],.icon-fallback-text[hidden]{display:none}
+.icon-tooltip[hidden]{display:none}.icon-tooltip{position:fixed;z-index:1000;width:360px;max-width:calc(100vw - 24px);max-height:min(440px,calc(100dvh - 24px));overflow-y:auto;overscroll-behavior:contain;padding:20px 22px;background:#222c22;border:1px solid #72855e;border-radius:10px;box-shadow:0 15px 50px #0009;outline:none;color:#e4eadb}.icon-tooltip strong{display:block;font-size:16px;color:#d3edac;margin-bottom:9px}.icon-tooltip p{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.95;color:#d0d9c7}.icon-tooltip p[hidden]{display:none}.icon-tooltip #tooltip-reference{display:block;font-size:11px;color:#d5bc87;border-top:1px solid #64754b55;padding-top:12px;margin-top:12px}.icon-tooltip #tooltip-reference[hidden]{display:none}.icon-tooltip:focus-visible{outline:2px solid #d3edac}
+@media(max-width:760px){.player-card{padding:16px}.score-value{font-size:26px}.talent-icons{gap:8px}.card-icon img{width:32px;height:32px}.kungfu-icon img{width:42px;height:42px}.health-line{justify-content:flex-start}}
+/* First recorded player kill */
+.kill-overview{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:24px;padding:20px 22px;border:1px solid #4c5b41;border-radius:10px;background:#d3edac08}.kill-overview-copy{min-width:0}.kill-overview h2{margin:0 0 8px;font-size:11px;letter-spacing:1px;font-weight:500;color:#a4b395}.kill-overview p{margin:0;font-size:14px;line-height:1.85;color:#e0e8d7;overflow-wrap:anywhere}.kill-overview.no-kill{border-color:var(--line);background:#ffffff03}.kill-overview.no-kill p{color:#a4b09c}.kill-analysis-button{flex-shrink:0;white-space:nowrap;padding:10px 17px}.kill-analysis-button:disabled{color:#a9b69c;border-color:#4e5b43;background:#b2ca9408;cursor:not-allowed;opacity:.7}.player-card.is-killed{filter:grayscale(1);border-left-color:#a2aaa3}.death-badge{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:3px 7px;border:1px solid #9fa99f80;border-radius:4px;background:#ffffff09;color:#d9ded9;font-size:10px;line-height:1.4}.death-badge:before{content:'×';font-size:14px;line-height:10px}@media(max-width:760px){.kill-overview{padding:17px;gap:15px;flex-wrap:wrap}.kill-overview p{font-size:13px}.kill-analysis-button{margin-left:auto}}
+.kill-analysis-action{display:flex;flex-shrink:0;flex-direction:column;align-items:center;gap:6px}.kill-analysis-action small{font-size:11px;color:#a4b09c}@media(max-width:760px){.kill-analysis-action{margin-left:auto}}
+</style>
+<link rel="stylesheet" href="/public/replay.css">
+<link rel="stylesheet" href="/public/ai.css">
+</head>
+<body><div class="app"><header><div class="brand"><img class="brand-icon" src="/public/app-icon.jpg" width="32" height="32" alt="">这咋死的</div><div class="header-note">初始配置</div><div class="header-actions hidden" id="library-actions"><button class="secondary" id="change-folder">修改战斗数据文件夹</button><button class="secondary" id="return-start">返回开始界面</button></div></header><div class="layout"><aside><div class="steps"><div class="step active"><span class="number">01</span><div><strong>欢迎使用</strong></div></div><div class="step"><span class="number">02</span><div><strong>开启战斗记录</strong></div></div><div class="step"><span class="number">03</span><div><strong>连接数据目录</strong></div></div><div class="step"><span class="number">04</span><div><strong>AI 模型配置</strong></div></div></div><div class="aside-bottom"><span>● &nbsp; 界面预览模式</span></div></aside><main><div class="topline"><span class="pill" id="progress"></span></div><p id="subtitle"></p><div class="content" id="content"></div><footer><span class="footer-hint" id="hint"></span><div class="actions"><button class="secondary hidden" id="back">上一步</button><button type="button" class="secondary skip-setup hidden" id="skip-llm">跳过</button><button class="secondary hidden" id="open-path">修改目录</button><button class="primary" id="next"></button></div></footer></main></div></div>
+<dialog id="path-dialog" aria-label="填写数据目录"><div class="dialog-top"><button class="close" aria-label="关闭对话框" id="close">×</button></div><p>粘贴文件夹地址栏中的完整路径。</p><form id="path-form"><label class="input-label" for="directory">数据目录地址</label><input type="text" id="directory" autocomplete="off" spellcheck="false" placeholder="粘贴完整路径，例如 D:\游戏目录\战斗记录" aria-describedby="path-error"><div class="error" id="path-error" role="alert"></div><div class="privacy">仅校验路径格式，不检查目录是否存在。</div><div class="dialog-actions"><button type="button" class="secondary" id="cancel">取消</button><button type="submit" class="primary">保存目录 <span>↗</span></button></div></form></dialog>
+<div id="icon-tooltip" class="icon-tooltip" role="tooltip" tabindex="-1" hidden><strong id="tooltip-label"></strong><p id="tooltip-description"></p><span id="tooltip-reference" hidden>说明含未展开引用</span></div>
+<script src="/public/replay-query.js"></script>
+<script src="/public/replay-ui.js"></script>
+<script src="/public/kill-query.js"></script>
+<script src="/public/kill-ui.js"></script>
+<script src="/public/ai-leave-guard.js"></script>
+<script src="/public/ai-chat.js"></script>
+<script src="/public/ai-ui.js"></script>
+<link rel="stylesheet" href="/public/kill.css">
+<script>
+let replayController=null;
+let aiController=null;
+let llmConfig=null;
+let llmDraft={baseUrl:'',model:''};
+JclAI.api('/api/ai/config').then(c=>{llmConfig=c;llmDraft={baseUrl:c.baseUrl||'',model:c.model||''};if(step===3&&!finished&&!$('llm-base-url')?.value)renderLlmSetup()}).catch(()=>{});
+let step=0,path='',finished=false,recordRequest=0,battleRequest=0,activeBattle=null,battleController=null;const $=id=>document.getElementById(id);const escapeHTML=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sword='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m5 19 4-4m-3-3 6 6M9 15 19 5l-1-2-3 1L6 13M3 21l3-3"/></svg>',shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6zM12 7v10M8 12h8"/></svg>';
+const selected=text=>`<div class="menu-row selected"><span class="check">✓</span>${text}</div>`;
+function guideOptions(){return `<div class="menu-scene"><div class="game-menu">${selected('在名剑大会中启用')}<div class="menu-divider"></div>${selected('保存所有角色记录')}${selected('启用角色对抗模式')}</div></div>`}
+function guide(){return '<div class="guide"><div class="menu-scene"><div class="game-menu"><div class="menu-row">最大历史记录数量 <span style="margin-left:auto">›</span></div><div class="menu-row">最小战斗时间限制 <span style="margin-left:auto">›</span></div><div class="menu-divider"></div><div class="menu-row highlight-row"><span>▱ &nbsp; 打开数据所在目录</span><span>↗</span></div></div></div></div>'}
+function render(){clearReplay();hideIconTooltip();recordRequest++;battleRequest++;if(battleController){battleController.abort();battleController=null}document.querySelector('.app').classList.toggle('library',finished);document.querySelector('.app').classList.toggle('battle-detail',finished&&!!activeBattle);$('library-actions').classList.toggle('hidden',!finished);document.querySelector('.app').classList.toggle('landing',step===0&&!finished);document.querySelector('main').classList.toggle('welcome',step===0&&!finished);document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i===step);el.classList.toggle('done',i<step||finished);el.querySelector('.number').textContent=i<step||finished?'✓':`0${i+1}`});$('progress').textContent=finished?'配置演示完成':`步骤 ${step+1} / 4`;$('back').classList.toggle('hidden',step===0||finished);$('next').disabled=false;$('skip-llm').classList.toggle('hidden',step!==3||finished);$('next').type=step===3&&!finished?'submit':'button';if(step===3&&!finished)$('next').setAttribute('form','llm-form');else $('next').removeAttribute('form');$('open-path').classList.toggle('hidden',step!==2||finished||!isValidDirectory(path));
+if(finished&&activeBattle){renderBattlePage(activeBattle);return}
+if(finished){$('subtitle').textContent='';$('content').innerHTML='<div class="library-toolbar"><span id="record-count">正在读取战斗数据…</span><button class="secondary" id="refresh-records">刷新</button></div><div id="record-list" aria-live="polite"></div>';$('refresh-records').onclick=loadRecords;loadRecords();return}
+if(step===0){$('subtitle').textContent='';$('content').innerHTML='<div class="impact-hero"><div class="impact-text">打完了<span>吗？</span></div></div>';$('hint').textContent='';$('next').textContent='开始复盘'}
+if(step===1){$('subtitle').textContent='';$('content').innerHTML=`<div class="entry-path"><span>游戏右侧小扳手</span><i>→</i><span>茗伊插件集</span><i>→</i><span>战斗统计</span><i>→</i><span class="entry-current">战斗事件记录</span></div><div class="setup-panel"><div class="record-switch"><span class="check">✓</span>开启战斗事件记录</div><span class="flow-arrow">↓</span><div class="guide">${guideOptions()}</div><p class="compact-note">在游戏中勾选以上三项</p></div>`;$('hint').textContent='';$('next').innerHTML='我已开启记录并勾选以上三项 <span>→</span>'}
+if(step===2){$('subtitle').textContent='';$('content').innerHTML=`<div class="entry-path"><span>战斗事件记录</span><i>→</i><span class="entry-current">打开数据所在目录</span></div><div class="instruction-grid">${guide(true)}<div class="explain"><p>复制文件夹地址栏中的完整路径。</p><div class="path-box"><label>数据目录</label><div class="path-value">${path?escapeHTML(path):'尚未填写'}</div></div></div></div>`;$('hint').textContent='';$('next').innerHTML=isValidDirectory(path)?'下一步 <span>→</span>':'粘贴目录地址 <span>↗</span>'}
+if(step===3)renderLlmSetup();}
+function renderLlmSetup(){
+  $('subtitle').textContent='';$('hint').textContent='';$('next').innerHTML='完成配置 <span>✓</span>';
+  $('content').innerHTML=`<form id="llm-form" class="llm-setup" autocomplete="off"><p class="llm-intro">填写模型服务商提供的连接信息，也可以跳过此步。</p><div class="llm-field"><label for="llm-base-url">Base URL</label><input id="llm-base-url" name="baseUrl" type="url" required placeholder="https://api.example.com/v1" autocomplete="off" spellcheck="false" aria-describedby="llm-url-hint"><small id="llm-url-hint">填写服务商的 API 基础地址，支持 HTTP / HTTPS。</small></div><div class="llm-field"><label for="llm-model">模型名</label><input id="llm-model" name="model" type="text" required placeholder="填写服务商提供的模型名称" autocomplete="off" spellcheck="false"></div><div class="llm-field"><label for="llm-api-key">API Key</label><input id="llm-api-key" name="apiKey" type="password" required placeholder="粘贴 API Key" autocomplete="new-password" spellcheck="false" autocapitalize="off"></div><p class="llm-session-note">配置仅在本次打开期间保留，刷新页面后需要重新填写。</p></form>`;
+  $('llm-api-key').required=!llmConfig?.hasApiKey;
+  $('llm-api-key').placeholder=llmConfig?.hasApiKey?'已安全保存，留空保持原密钥':'粘贴 API Key';
+  document.querySelector('.llm-session-note').textContent='密钥由本机后端加密保存，页面不会读取已保存的密钥。';
+  $('llm-form').insertAdjacentHTML('beforeend','<p class="error" id="llm-save-error" role="alert"></p>');
+  for(const [key,id] of [['baseUrl','llm-base-url'],['model','llm-model']]){
+    const input=$(id);input.value=llmDraft[key];input.oninput=()=>{llmDraft[key]=input.value;input.setCustomValidity('')};
+  }
+  $('llm-form').onsubmit=event=>{event.preventDefault();saveLlmAndFinish()};
+}
+function readLlmDraft(){
+  if(!$('llm-form'))return;
+  llmDraft={baseUrl:$('llm-base-url').value,model:$('llm-model').value};
+}
+async function saveLlmAndFinish(){
+  if($('next').disabled)return;
+  readLlmDraft();
+  const baseUrl=llmDraft.baseUrl.trim(),model=llmDraft.model.trim(),apiKey=$('llm-api-key').value.trim();
+  let validUrl=false;
+  try{const url=new URL(baseUrl);validUrl=['http:','https:'].includes(url.protocol)&&!!url.hostname&&!url.username&&!url.password}catch{}
+  $('llm-base-url').setCustomValidity(validUrl?'':'请输入完整的 HTTP 或 HTTPS 基础地址。');
+  $('llm-model').setCustomValidity(model?'':'请填写模型名。');
+  $('llm-api-key').setCustomValidity(apiKey||llmConfig?.hasApiKey?'':'请填写 API Key，或点击跳过。');
+  if(!$('llm-form').reportValidity())return;
+  $('next').disabled=true;
+  try{llmConfig=await JclAI.api('/api/ai/config',{baseUrl,model,apiKey});$('llm-api-key').value='';llmDraft={baseUrl,model};finishSetup()}
+  catch(error){$('llm-save-error').textContent=error.message;$('next').disabled=false}
+}
+function finishSetup(){finished=true;activeBattle=null;render();window.scrollTo(0,0)}
+function openDialog(){$('directory').value=path;$('path-error').textContent='';$('directory').removeAttribute('aria-invalid');$('path-dialog').showModal();$('directory').focus()}
+$('return-start').onclick=()=>{finished=false;activeBattle=null;step=0;render()};
+$('open-path').onclick=openDialog;
+$('change-folder').onclick=openDialog;
+$('next').onclick=event=>{event.preventDefault();if(!finished&&step===3){saveLlmAndFinish();return}if(finished){step=0;finished=false}else if(step<2)step++;else if(isValidDirectory(path)){step=3}else{openDialog();return}render()};$('back').onclick=()=>{if(step===3)readLlmDraft();step=Math.max(0,step-1);render()};$('skip-llm').onclick=()=>{readLlmDraft();finishSetup()};$('close').onclick=$('cancel').onclick=()=>$('path-dialog').close();$('path-form').onsubmit=e=>{e.preventDefault();const value=$('directory').value.trim().replace(/^"(.*)"$/,'$1');if(!isValidDirectory(value)){$('path-error').textContent='请输入合法的完整目录路径，不可包含 < > : " | ? * 等非法字符。';$('directory').setAttribute('aria-invalid','true');return}path=value.replace(/\//g,'\\');$('path-dialog').close();activeBattle=null;render()};
+function isValidDirectory(value){
+  if(!value||/[\x00-\x1f<>"|?*]/.test(value))return false;
+  const normalized=value.replace(/\//g,'\\');
+  let parts;
+  if(/^[a-zA-Z]:\\/.test(normalized)){parts=normalized.slice(3).split('\\')}
+  else if(normalized.startsWith('\\\\')){parts=normalized.slice(2).split('\\');if(parts.length<2||!parts[0]||!parts[1])return false}
+  else return false;
+  if(parts.at(-1)==='')parts.pop();
+  return parts.every(part=>part!==''&&!/[:\x00-\x1f<>"|?*]/.test(part)&&!/[. ]$/.test(part)&&!/^(con|prn|aux|nul|com[1-9¹²³]|lpt[1-9¹²³])(?:\.|$)/i.test(part));
+}
+async function loadRecords(){
+  const request=++recordRequest;
+  $('record-count').textContent='正在读取战斗数据…';
+  $('record-list').innerHTML='';
+  $('refresh-records').disabled=true;
+  try{
+    const response=await fetch('/api/records',{method:'POST',headers:{'Content-Type':'application/json','X-Preview-Client':'jx3'},body:JSON.stringify({directory:path})});
+    const data=await response.json();
+    if(request!==recordRequest||!finished)return;
+    if(!response.ok)throw new Error(data.error||'读取目录失败，请重试。');
+    $('record-count').textContent=data.records.length+' 场战斗';
+    $('record-list').innerHTML=data.records.length?
+      '<table class="records-table"><thead><tr><th scope="col">时间 <span>↓</span></th><th scope="col">地图</th><th scope="col"><span class="sr-only">操作</span></th></tr></thead><tbody>'+data.records.map(record=>'<tr><td>'+escapeHTML(record.time)+'</td><td>'+escapeHTML(record.map)+'</td><td class="record-action"><button class="review-button" data-filename="'+escapeHTML(record.filename)+'" aria-label="复盘 '+escapeHTML(record.time)+' '+escapeHTML(record.map)+'">复盘</button></td></tr>').join('')+'</tbody></table>':
+      '<div class="empty-records"><span aria-hidden="true">▱</span><p>尚未发现该文件夹下的战斗数据</p></div>';
+    const recordsByFilename=new Map(data.records.map(record=>[record.filename,record]));
+    document.querySelectorAll('.review-button').forEach(button=>{button.onclick=()=>{const record=recordsByFilename.get(button.dataset.filename);if(record){activeBattle=record;render();window.scrollTo(0,0)}}});
+  }catch(error){
+    if(request!==recordRequest||!finished)return;
+    $('record-count').textContent='读取失败';
+    $('record-list').innerHTML='<div class="empty-records"><p>'+escapeHTML(error.message)+'</p><button class="secondary" id="fix-directory">修改目录</button></div>';
+    $('fix-directory').onclick=()=>{finished=false;step=2;render();openDialog()};
+  }finally{if(request===recordRequest&&finished)$('refresh-records').disabled=false}
+}
+function iconControl({url,label,description='',references=false,kind='talent'}){
+  const local=typeof url==='string'&&/^\/api\/icons\/(std|origin)\/[1-9]\d*\.png(?:\?offline=1)?$/.test(url)?url:null;
+  return `<button type="button" class="card-icon ${kind}-icon${local?'':' icon-fallback'}" aria-label="${escapeHTML(label)}" data-icon-label="${escapeHTML(label)}" data-icon-description="${escapeHTML(description|| (kind==='talent'?'暂无详细说明':''))}" data-icon-references="${references?'true':'false'}">${local?`<img src="${escapeHTML(local)}" alt="${escapeHTML(label)}" loading="lazy" decoding="async">`:''}<span class="icon-fallback-text"${local?' hidden':''}>${escapeHTML(label)}</span></button>`;
+}
+function playerCard(player){
+  const unknown=player.maxHp==null;
+  const scoreUnknown=player.equipScore==null;
+  const backfilled=player.maxHpStatus==='prior_snapshot'||player.maxHpStatus==='later_snapshot';
+  const note=unknown?'最大血量未知':(player.maxHpNote||'');
+  const talents=player.talents||[];
+  const kungfuName=player.kungfuName||'心法未知';
+  return `<article class="player-card${unknown?' hp-unknown':''}${player.isFirstKillVictim?' is-killed':''}" data-player-id="${escapeHTML(player.id||'')}">
+    <div class="player-top"><div class="player-identity">${iconControl({url:player.kungfuIconUrl,label:kungfuName,kind:'kungfu'})}<div class="player-name-block"><div class="player-name">${escapeHTML(player.name||'姓名未知')}</div>${player.isFirstKillVictim?'<span class="death-badge" title="本局首个被击杀的玩家">被击杀</span>':''}</div></div><div class="score-block"><span class="score-label">装分</span><strong class="score-value${scoreUnknown?' value-unknown':''}">${escapeHTML(player.equipScoreText??'未知')}</strong></div></div>
+    <div class="health-line"><span>最大血量</span><span class="hp-value">${escapeHTML(player.maxHpText??'未知')}</span><span class="evidence-chip${backfilled?' backfilled':''}${unknown?' unresolved':''}">${escapeHTML(note)}</span>${player.hpSnapshotInconsistent?'<span class="evidence-chip discrepancy" title="该快照当前血量大于记录的最大血量；此处保留日志中的最大血量原值。">快照有差异</span>':''}</div>
+    <div class="talent-section"><div class="talent-caption"><span>奇穴</span>${player.talentStatus==='partial'?'<span class="talent-status">奇穴记录不完整</span>':''}${player.talentSchemeChanged?'<span class="talent-status">日志中有方案变化</span>':''}${player.equipScoreChanged?'<span class="talent-status">日志中有装分变化</span>':''}</div><div class="talent-icons">${talents.length?talents.map(talent=>iconControl({url:talent.iconUrl,label:talent.label||'奇穴未知',description:talent.description,references:talent.descriptionHasReferences})).join(''):'<span class="talents-unknown">奇穴未知</span>'}</div></div>
+  </article>`;
+}
+function firstKillBanner(firstKill){
+  const recorded=firstKill?.status==='recorded';
+  const text=firstKill?.text||'击杀信息暂不可用，接口可能尚未更新，请重启预览服务后重试。';
+  const showAnalysis=recorded&&firstKill.canAnalyze===true;
+  return `<section class="kill-overview${recorded?'':' no-kill'}" aria-label="首个击杀"><div class="kill-overview-copy"><h2>首个击杀</h2><p>${escapeHTML(text)}</p></div>${showAnalysis?'<div class="kill-analysis-action"><button type="button" class="secondary kill-analysis-button" disabled aria-label="击杀分析" aria-describedby="kill-analysis-note" title="正在准备分析数据">击杀分析</button><small id="kill-analysis-note">正在准备</small></div>':''}</section>`;
+}
+function battleTeams(view){
+  const unknown=view.teamStatus==='unknown';
+  const unassigned=view.unassignedPlayers||[];
+  let html=firstKillBanner(view.firstKill)+(unknown?'<div class="team-notice">分队未知 · 暂无法可靠区分双方</div>':view.teamStatus==='inferred'?'<div class="team-notice">双方分队由战斗关系推断<span>我方为记录者所在队伍</span></div>':'');
+  if(!unknown){html+='<div class="team-grid">'+(view.teams||[]).map((team,index)=>`<section class="team-column ${index===0?'team-friendly':'team-opponent'}"><div class="team-heading"><span>${escapeHTML(team.label)}</span><small>${team.players.length} 人</small></div><div class="team-players">${team.players.map(playerCard).join('')}</div></section>`).join('')+'</div>'}
+  if(unassigned.length){html+=`<section class="unassigned-team"><div class="team-heading"><span>未分组玩家</span><small>${unassigned.length} 人</small></div><div class="unassigned-grid">${unassigned.map(playerCard).join('')}</div></section>`}
+  if(!(view.teams||[]).some(team=>team.players.length)&&!unassigned.length){html+='<div class="empty-records"><p>尚未识别到玩家信息</p></div>'}
+  const hasBackfill=[...(view.teams||[]).flatMap(team=>team.players),...unassigned].some(player=>['prior_snapshot','later_snapshot'].includes(player.maxHpStatus));
+  if(hasBackfill)html+='<p class="battle-footnote">补齐血量来自入战附近的快照，并非入战时直接记录。</p>';
+  if((view.warnings||[]).some(warning=>warning.code==='NO_END_MARKER'))html+='<p class="battle-footnote">日志未包含明确的结束标记，暂不判断胜负。</p>';
+  return html;
+}
+function renderBattlePage(record,data=null,selectedTimeMs=0){
+  $('subtitle').textContent='';
+  $('content').innerHTML=`<div class="battle-toolbar"><button class="secondary" id="back-records">← 返回列表</button><div class="battle-meta"><strong>${escapeHTML(record.map)}</strong><time>${escapeHTML(record.time)}</time></div><button type="button" class="secondary global-review-button" id="global-review" disabled title="正在准备回顾数据">全局回顾</button></div><div id="battle-body" aria-live="polite" aria-busy="true"><div class="battle-loading"><span class="loading-ring" aria-hidden="true"></span>正在读取对局与回顾数据…</div></div>`;
+  $('back-records').onclick=()=>{activeBattle=null;render();window.scrollTo(0,0)};
+  if(data){
+    $('battle-body').innerHTML=battleTeams(data.view);bindCardMedia($('battle-body'));
+    $('battle-body').setAttribute('aria-busy','false');attachReplay(data.replay,data.view,selectedTimeMs,data.killAnalysis,data.battle);
+  }else loadBattle(record);
+}
+function clearReplay(){
+  aiController?.destroy();aiController=null;
+  replayController?.destroy();replayController=null;
+  document.querySelector('.app').classList.remove('replay-page');
+  const returnButton=$('return-battle');if(returnButton)returnButton.onclick=null;
+  $('library-actions').classList.toggle('hidden',!finished);
+  const button=$('global-review');
+  if(button){button.disabled=true;button.onclick=null}
+}
+function attachReplay(replay,view,selectedTimeMs=0,killAnalysis=null,battle=null){
+  const killButton=document.querySelector('.kill-analysis-button');
+  if(killButton){
+    const available=Boolean(replay&&killAnalysis?.status==='ready');
+    killButton.disabled=!available;killButton.title=available?'查看固定窗口内的击杀分析':'分析数据暂不可用，请重启预览服务后重试。';
+    $('kill-analysis-note').textContent=available?'':'数据暂不可用';
+    killButton.onclick=available?()=>renderKillPage(activeBattle,{view,replay,killAnalysis,battle},selectedTimeMs):null;
+  }
+  const button=$('global-review');
+  if(!button)return;
+  if(!replay){button.title='回顾数据暂不可用，请重启预览服务后重试。';return}
+  button.disabled=false;button.title='位置、血量与战斗事件';
+  button.onclick=()=>renderReplayPage(activeBattle,{view,replay,killAnalysis,battle},selectedTimeMs);
+}
+function renderKillPage(record,data,globalTime=0){
+  clearReplay();hideIconTooltip();
+  document.querySelector('.app').classList.add('replay-page');
+  $('library-actions').classList.add('hidden');
+  $('content').innerHTML=`<div class="battle-toolbar replay-page-toolbar"><div class="replay-page-heading"><button type="button" class="secondary" id="return-battle">返回复盘页面</button><h1>击杀分析</h1><time>${escapeHTML(record.map)} · ${escapeHTML(record.time)}</time></div><div id="ai-actions" class="ai-actions"></div></div><div id="ai-region"></div><div id="ai-jump-record"></div><div id="kill-region" aria-live="off"></div>`;
+  replayController=JclKillUI.mount($('kill-region'),data);
+  aiController=JclAI.mount($('ai-actions'),$('ai-region'),{record,data,directory:path,onSettings:async()=>{if(aiController&&!await aiController.confirmLeave())return;step=3;finished=false;activeBattle=null;render()},onSeek:async e=>{
+    if(e.atMs<data.killAnalysis.window.startAtMs){if(aiController&&!await aiController.confirmLeave())return;renderReplayPage(record,data,e.atMs,e);return}
+    replayController.setTime(e.atMs);showAiRecord(e);$('ai-jump-record').scrollIntoView({block:'start'});
+  }});
+  $('return-battle').onclick=async()=>{if(aiController&&!await aiController.confirmLeave())return;clearReplay();renderBattlePage(record,data,globalTime);window.scrollTo(0,0);document.querySelector('.kill-analysis-button')?.focus({preventScroll:true})};
+  window.scrollTo(0,0);$('return-battle').focus({preventScroll:true});
+}
+function showAiRecord(e){$('ai-jump-record').innerHTML=`<div class="ai-claim"><strong>已定位 ${(e.atMs/1000).toFixed(3)} 秒 · 第 ${e.line} 行</strong><details><summary>查看原始记录</summary><pre class="ai-raw-record">${escapeHTML(e.raw||'请从报告证据展开原始记录。')}</pre></details></div>`}
+function renderReplayPage(record,data,selectedTimeMs,evidence=null){
+  clearReplay();hideIconTooltip();
+  document.querySelector('.app').classList.add('replay-page');
+  $('library-actions').classList.add('hidden');
+  $('content').innerHTML=`<div class="battle-toolbar replay-page-toolbar"><div class="replay-page-heading"><button type="button" class="secondary" id="return-battle">返回复盘页面</button><h1>全局回顾</h1><time>${escapeHTML(record.map)} · ${escapeHTML(record.time)}</time></div>${evidence?'<button class="secondary global-review-button" id="return-ai-report">返回 AI 报告</button>':''}</div><div id="ai-jump-record"></div><div id="replay-region" class="replay-region" aria-live="off"></div>`;
+  replayController=JclReplayUI.mount($('replay-region'),data.replay);replayController.setTime(selectedTimeMs);
+  if(evidence){showAiRecord(evidence);$('return-ai-report').onclick=()=>renderKillPage(record,data,selectedTimeMs)}
+  $('return-battle').onclick=()=>{
+    const time=replayController.getTime();clearReplay();renderBattlePage(record,data,time);
+    window.scrollTo(0,0);$('global-review').focus({preventScroll:true});
+  };
+  window.scrollTo(0,0);$('return-battle').focus({preventScroll:true});
+}
+async function loadBattle(record){
+  clearReplay();
+  const request=++battleRequest,directory=path,filename=record.filename;
+  if(battleController)battleController.abort();
+  const controller=new AbortController();battleController=controller;
+  const current=()=>request===battleRequest&&finished&&activeBattle?.filename===filename&&path===directory;
+  $('battle-body').setAttribute('aria-busy','true');
+  $('battle-body').innerHTML='<div class="battle-loading"><span class="loading-ring" aria-hidden="true"></span>正在读取双方阵容与首个击杀…</div>';
+  try{
+    const response=await fetch('/api/battle',{method:'POST',headers:{'Content-Type':'application/json','X-Preview-Client':'jx3'},body:JSON.stringify({directory,filename}),signal:controller.signal});
+    const data=await response.json();
+    if(!current())return;
+    if(!response.ok)throw new Error(data.error||'读取战斗失败，请重试。');
+    if(!data.view)throw new Error('缺少阵容信息，请重试。');
+    $('battle-body').innerHTML=battleTeams(data.view);bindCardMedia($('battle-body'));
+    attachReplay(data.replay,data.view,0,data.killAnalysis,data.battle);
+  }catch(error){
+    if(!current()||error.name==='AbortError')return;
+    $('battle-body').innerHTML=`<div class="empty-records"><p>${escapeHTML(error.message)}</p><button class="secondary" id="retry-battle">重新读取</button></div>`;
+    $('retry-battle').onclick=()=>loadBattle(record);
+  }finally{if(current())$('battle-body').setAttribute('aria-busy','false');if(battleController===controller)battleController=null}
+}
+
+// Image failures are terminal for this element; never substitute a remote URL or retry.
+function imageFallback(image){
+  const control=image.closest('.card-icon');
+  image.onerror=null;image.onload=null;
+  image.remove();
+  if(control){control.classList.add('icon-fallback');control.querySelector('.icon-fallback-text').hidden=false}
+}
+let tooltipAnchor=null,tooltipTimer=null;
+function hideIconTooltip(){
+  clearTimeout(tooltipTimer);
+  if(tooltipAnchor)tooltipAnchor.removeAttribute('aria-describedby');
+  tooltipAnchor=null;
+  $('icon-tooltip').hidden=true;
+}
+function positionIconTooltip(){
+  if(!tooltipAnchor)return;
+  const tooltip=$('icon-tooltip'),rect=tooltipAnchor.getBoundingClientRect();
+  const width=tooltip.offsetWidth,height=tooltip.offsetHeight;
+  const left=Math.max(12,Math.min(rect.left+rect.width/2-width/2,window.innerWidth-width-12));
+  const below=rect.bottom+10;
+  const top=below+height<=window.innerHeight-12?below:Math.max(12,rect.top-height-10);
+  tooltip.style.left=left+'px';tooltip.style.top=top+'px';
+}
+function showIconTooltip(control){
+  const changed=tooltipAnchor!==control;
+  clearTimeout(tooltipTimer);
+  if(tooltipAnchor&&tooltipAnchor!==control)tooltipAnchor.removeAttribute('aria-describedby');
+  tooltipAnchor=control;
+  $('tooltip-label').textContent=control.dataset.iconLabel;
+  $('tooltip-description').textContent=control.dataset.iconDescription;
+  $('tooltip-description').hidden=!control.dataset.iconDescription;
+  $('tooltip-reference').hidden=control.dataset.iconReferences!=='true';
+  $('icon-tooltip').hidden=false;
+  if(changed)$('icon-tooltip').scrollTop=0;
+  control.setAttribute('aria-describedby','icon-tooltip');
+  positionIconTooltip();
+}
+function scheduleTooltipHide(){tooltipTimer=setTimeout(hideIconTooltip,180)}
+function bindCardMedia(root){
+  root.querySelectorAll('.card-icon img').forEach(image=>{
+    image.onerror=()=>imageFallback(image);
+    if(image.complete&&!image.naturalWidth)imageFallback(image);
+  });
+  root.querySelectorAll('.card-icon').forEach(control=>{
+    control.onmouseenter=()=>showIconTooltip(control);
+    control.onmouseleave=scheduleTooltipHide;
+    control.onfocus=()=>showIconTooltip(control);
+    control.onblur=scheduleTooltipHide;
+    control.onclick=()=>showIconTooltip(control);
+    control.onkeydown=event=>{
+      if(event.key==='Escape')hideIconTooltip();
+      if(event.key==='ArrowDown'){event.preventDefault();$('icon-tooltip').focus()}
+    };
+  });
+}
+function initIconTooltip(){
+  const tooltip=$('icon-tooltip');
+  tooltip.onmouseenter=()=>clearTimeout(tooltipTimer);
+  tooltip.onmouseleave=scheduleTooltipHide;
+  tooltip.onfocus=()=>clearTimeout(tooltipTimer);
+  tooltip.onblur=scheduleTooltipHide;
+  tooltip.onkeydown=event=>{if(event.key==='Escape'){const anchor=tooltipAnchor;anchor?.focus();hideIconTooltip()}};
+  window.addEventListener('resize',positionIconTooltip);
+  window.addEventListener('scroll',event=>{if(!tooltip.contains(event.target))hideIconTooltip()},true);
+}
+
+initIconTooltip();
+render();
+</script></body></html>

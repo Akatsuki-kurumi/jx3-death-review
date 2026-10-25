@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "rules": {
+    "29282:1": {
+      "name": "提子",
+      "direction": "outgoing_healing",
+      "label": "降低治疗输出",
+      "description": "造成伤害和治疗效果降低80%",
+      "sourceFile": "healer-buff-details.json",
+      "scope": "exact_id_and_level",
+      "historicalVersionVerified": false
+    }
+  },
+  "controlTags": ["特控", "眩晕", "定身", "沉默", "缴械", "封内", "封轻", "锁足", "减速", "挑飞"],
+  "excludedControlTags": ["免控", "免封", "封控", "封减", "浮空"],
+  "notes": [
+    "封控/封减并不表示限制敌人，抽查 API 描述包含水月、捣衣、转乾坤等增益，不纳入受控规则。",
+    "原字典的浮空对应 12481:1，说明为不受控制影响，不能作为被击飞证据；挑飞 25903:1 的说明为受到挑飞效果。",
+    "减疗、禁疗、治疗吸收默认是接受治疗一侧；不能仅凭奶妈身上出现这些标签就认定其治疗输出降低。",
+    "本补充表保留当前 API 描述来源，不把百分比用于推算历史对局的实际损失治疗量。"
+  ]
+}

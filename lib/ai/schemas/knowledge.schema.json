@@ -1,0 +1,330 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "jx3.ai-knowledge.v1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "mechanic",
+        "tactic_hypothesis",
+        "parser_rule",
+        "monitor_tag",
+        "resource_description",
+        "analysis_method"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1600
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "candidate",
+        "sourced",
+        "verified",
+        "conflicted",
+        "deprecated",
+        "rejected"
+      ]
+    },
+    "client": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "gameVersion": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validFrom": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "validTo": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "resourceKeys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "skill",
+              "buff",
+              "kungfu",
+              "talent"
+            ]
+          },
+          "id": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "id",
+          "level"
+        ]
+      },
+      "minItems": 0,
+      "maxItems": 20
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 400
+      },
+      "minItems": 0,
+      "maxItems": 20
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "resource",
+              "event",
+              "parser_rule",
+              "user_feedback",
+              "primary_document"
+            ]
+          },
+          "origin": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "contentHash": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "retrievedAt": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          }
+        },
+        "required": [
+          "refId",
+          "kind",
+          "origin",
+          "contentHash",
+          "retrievedAt"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 20
+    },
+    "createdBy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "program",
+            "model",
+            "user"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "updatedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "review": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "actorKind": {
+              "type": "string",
+              "enum": [
+                "human",
+                "maintained_rule"
+              ]
+            },
+            "actorId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "at": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 60
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              },
+              "minItems": 1,
+              "maxItems": 20
+            },
+            "note": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800
+            }
+          },
+          "required": [
+            "actorKind",
+            "actorId",
+            "at",
+            "sourceRefs",
+            "note"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conflictsWith": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "minItems": 0,
+      "maxItems": 20
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 100
+      },
+      "minItems": 0,
+      "maxItems": 20
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "revision",
+    "kind",
+    "statement",
+    "status",
+    "client",
+    "gameVersion",
+    "validFrom",
+    "validTo",
+    "resourceKeys",
+    "conditions",
+    "sources",
+    "createdBy",
+    "createdAt",
+    "updatedAt",
+    "review",
+    "conflictsWith",
+    "supersedes"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:jx3:ai-knowledge:v1",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "verified"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "review": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

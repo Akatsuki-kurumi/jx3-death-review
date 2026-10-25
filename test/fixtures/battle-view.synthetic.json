@@ -1,0 +1,180 @@
+{
+  "schemaVersion": "1.3.0",
+  "teamStatus": "inferred",
+  "firstKill": {
+    "status": "none",
+    "text": "本局未记录玩家击杀事件。"
+  },
+  "teams": [
+    {
+      "id": "A",
+      "label": "我方",
+      "players": [
+        {
+          "id": "1",
+          "name": "测试玩家1",
+          "teamId": "A",
+          "kungfuId": 10000,
+          "kungfuName": "测试心法1",
+          "kungfuIconUrl": null,
+          "equipScore": 800000,
+          "equipScoreText": "800,000",
+          "maxHp": 3000000,
+          "maxHpText": "3,000,000",
+          "maxHpStatus": "later_snapshot",
+          "maxHpNote": "后续记录补齐",
+          "hpSnapshotInconsistent": false,
+          "isFirstKillVictim": false,
+          "talentStatus": "recorded",
+          "talents": [
+            {
+              "slot": 1,
+              "skillId": 900001,
+              "label": "测试奇穴",
+              "iconUrl": null,
+              "description": "仅用于界面测试的合成说明。"
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "测试玩家2",
+          "teamId": "A",
+          "kungfuId": 10001,
+          "kungfuName": "测试心法2",
+          "kungfuIconUrl": null,
+          "equipScore": 800000,
+          "equipScoreText": "800,000",
+          "maxHp": 3000000,
+          "maxHpText": "3,000,000",
+          "maxHpStatus": "later_snapshot",
+          "maxHpNote": "后续记录补齐",
+          "hpSnapshotInconsistent": false,
+          "isFirstKillVictim": false,
+          "talentStatus": "recorded",
+          "talents": [
+            {
+              "slot": 1,
+              "skillId": 900001,
+              "label": "测试奇穴",
+              "iconUrl": null,
+              "description": "仅用于界面测试的合成说明。"
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "测试玩家3",
+          "teamId": "A",
+          "kungfuId": 10002,
+          "kungfuName": "测试心法3",
+          "kungfuIconUrl": null,
+          "equipScore": 800000,
+          "equipScoreText": "800,000",
+          "maxHp": 3000000,
+          "maxHpText": "3,000,000",
+          "maxHpStatus": "later_snapshot",
+          "maxHpNote": "后续记录补齐",
+          "hpSnapshotInconsistent": false,
+          "isFirstKillVictim": false,
+          "talentStatus": "recorded",
+          "talents": [
+            {
+              "slot": 1,
+              "skillId": 900001,
+              "label": "测试奇穴",
+              "iconUrl": null,
+              "description": "仅用于界面测试的合成说明。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "label": "对方",
+      "players": [
+        {
+          "id": "4",
+          "name": "测试玩家4",
+          "teamId": "B",
+          "kungfuId": 10003,
+          "kungfuName": "测试心法4",
+          "kungfuIconUrl": null,
+          "equipScore": 800000,
+          "equipScoreText": "800,000",
+          "maxHp": 3000000,
+          "maxHpText": "3,000,000",
+          "maxHpStatus": "later_snapshot",
+          "maxHpNote": "后续记录补齐",
+          "hpSnapshotInconsistent": false,
+          "isFirstKillVictim": false,
+          "talentStatus": "recorded",
+          "talents": [
+            {
+              "slot": 1,
+              "skillId": 900001,
+              "label": "测试奇穴",
+              "iconUrl": null,
+              "description": "仅用于界面测试的合成说明。"
+            }
+          ]
+        },
+        {
+          "id": "5",
+          "name": "测试玩家5",
+          "teamId": "B",
+          "kungfuId": 10004,
+          "kungfuName": "测试心法5",
+          "kungfuIconUrl": null,
+          "equipScore": 800000,
+          "equipScoreText": "800,000",
+          "maxHp": 3000000,
+          "maxHpText": "3,000,000",
+          "maxHpStatus": "later_snapshot",
+          "maxHpNote": "后续记录补齐",
+          "hpSnapshotInconsistent": false,
+          "isFirstKillVictim": false,
+          "talentStatus": "recorded",
+          "talents": [
+            {
+              "slot": 1,
+              "skillId": 900001,
+              "label": "测试奇穴",
+              "iconUrl": null,
+              "description": "仅用于界面测试的合成说明。"
+            }
+          ]
+        },
+        {
+          "id": "6",
+          "name": "测试玩家6",
+          "teamId": "B",
+          "kungfuId": 10005,
+          "kungfuName": "测试心法6",
+          "kungfuIconUrl": null,
+          "equipScore": 800000,
+          "equipScoreText": "800,000",
+          "maxHp": 3000000,
+          "maxHpText": "3,000,000",
+          "maxHpStatus": "later_snapshot",
+          "maxHpNote": "后续记录补齐",
+          "hpSnapshotInconsistent": false,
+          "isFirstKillVictim": false,
+          "talentStatus": "recorded",
+          "talents": [
+            {
+              "slot": 1,
+              "skillId": 900001,
+              "label": "测试奇穴",
+              "iconUrl": null,
+              "description": "仅用于界面测试的合成说明。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "unassignedPlayers": [],
+  "warnings": []
+}

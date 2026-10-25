@@ -1,0 +1,33 @@
+node_modules/
+*.tmp
+dist/
+
+# Private runtime data and local research (keep on disk, never publish).
+/cache/
+/analysis/
+/examples/
+/preview/
+/test-results/
+/memory.md
+/工作手册.md
+/预览说明.md
+/tools/
+/test/verify-*.cjs
+/test/fixtures/first-kill-cases.json
+/scripts/export-ai-report.cjs
+/scripts/repair-ai-report.cjs
+/docs/*
+!/docs/开源发布指南.md
+.env
+.env.*
+*.dpapi
+*.jcl
+*.JCL
+*.log
+
+# User supplied avatar is not part of the open-source distribution.
+/public/app-icon.jpg
+/desktop/app.ico
+
+# Local clean-source verification directory.
+/.open-source-check/
