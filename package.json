@@ -8,7 +8,8 @@
     "preview": "node preview-server.cjs",
     "test": "node --test test/*.test.cjs",
     "start": "electron .",
-    "package": "node scripts/package-desktop.cjs"
+    "package": "node scripts/package-desktop.cjs",
+    "package:open-source": "node scripts/package-desktop.cjs --open-source"
   },
   "dependencies": {
     "ajv": "8.17.1"
