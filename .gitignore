@@ -18,6 +18,7 @@ dist/
 /scripts/repair-ai-report.cjs
 /docs/*
 !/docs/开源发布指南.md
+!/docs/模型供应商配置指南.md
 .env
 .env.*
 *.dpapi
