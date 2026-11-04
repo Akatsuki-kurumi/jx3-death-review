@@ -1,16 +1,16 @@
 'use strict';
-const { app, BrowserWindow, Menu, dialog, nativeImage } = require('electron');
+const { app, BrowserWindow, Menu, dialog, nativeImage, shell } = require('electron');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { seedCache } = require('./cache.cjs');
-const { isLocalUrl, contentSecurityPolicy } = require('./security.cjs');
+const { isLocalUrl, isVideoSourceUrl, contentSecurityPolicy } = require('./security.cjs');
 
 const productName = '这咋死的';
-const userRoot = process.env.JX3_USER_DATA_DIR || path.join(process.env.LOCALAPPDATA || app.getPath('appData'), 'ZheZhaSiDe');
+const userRoot = require('../lib/user-data.cjs').userDataRoot({base:process.env.LOCALAPPDATA||app.getPath('appData')});
 process.env.JX3_USER_DATA_DIR = userRoot;
 process.env.JX3_CACHE_DIR = path.join(userRoot, 'cache/jcl');
 app.setName(productName);
-app.setAppUserModelId('com.zhezhaside.desktop');
+app.setAppUserModelId(require('../package.json').distribution==='local'?'com.zhezhaside.desktop':'com.zhezhaside.opensource');
 require('node:fs').mkdirSync(path.join(userRoot, 'desktop'), { recursive: true });
 app.setPath('userData', path.join(userRoot, 'desktop'));
 
@@ -54,7 +54,10 @@ async function start() {
   session.setPermissionCheckHandler((webContents, permission, requestingOrigin) =>
     webContents === contents && permission === 'clipboard-sanitized-write' && requestingOrigin === origin);
   session.on('will-download', event => event.preventDefault());
-  contents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  contents.setWindowOpenHandler(({url}) => {
+    if(isVideoSourceUrl(url))shell.openExternal(url).catch(()=>dialog.showErrorBox('无法打开视频','请从报告中复制视频地址，在浏览器中打开。'));
+    return { action: 'deny' };
+  });
   contents.on('will-attach-webview', event => event.preventDefault());
   contents.on('will-navigate', (event, url) => { if (!isLocalUrl(url, origin)) event.preventDefault(); });
   contents.on('will-redirect', (event, url) => { if (!isLocalUrl(url, origin)) event.preventDefault(); });

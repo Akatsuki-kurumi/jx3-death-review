@@ -68,42 +68,46 @@
 /* First recorded player kill */
 .kill-overview{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:24px;padding:20px 22px;border:1px solid #4c5b41;border-radius:10px;background:#d3edac08}.kill-overview-copy{min-width:0}.kill-overview h2{margin:0 0 8px;font-size:11px;letter-spacing:1px;font-weight:500;color:#a4b395}.kill-overview p{margin:0;font-size:14px;line-height:1.85;color:#e0e8d7;overflow-wrap:anywhere}.kill-overview.no-kill{border-color:var(--line);background:#ffffff03}.kill-overview.no-kill p{color:#a4b09c}.kill-analysis-button{flex-shrink:0;white-space:nowrap;padding:10px 17px}.kill-analysis-button:disabled{color:#a9b69c;border-color:#4e5b43;background:#b2ca9408;cursor:not-allowed;opacity:.7}.player-card.is-killed{filter:grayscale(1);border-left-color:#a2aaa3}.death-badge{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:3px 7px;border:1px solid #9fa99f80;border-radius:4px;background:#ffffff09;color:#d9ded9;font-size:10px;line-height:1.4}.death-badge:before{content:'×';font-size:14px;line-height:10px}@media(max-width:760px){.kill-overview{padding:17px;gap:15px;flex-wrap:wrap}.kill-overview p{font-size:13px}.kill-analysis-button{margin-left:auto}}
 .kill-analysis-action{display:flex;flex-shrink:0;flex-direction:column;align-items:center;gap:6px}.kill-analysis-action small{font-size:11px;color:#a4b09c}@media(max-width:760px){.kill-analysis-action{margin-left:auto}}
+.llm-field select{width:100%;min-height:46px;border:1px solid #526447;border-radius:7px;background:#111911;color:#e2edd8;padding:12px;font-size:13px}.llm-field select:focus{border-color:var(--accent)}.llm-options{margin:0 0 22px;border:1px solid var(--line);border-radius:8px;padding:14px}.llm-options summary{cursor:pointer;font-size:12px;color:#b4c4a6}.llm-options[open] summary{margin-bottom:20px}.llm-options .llm-field:last-child{margin-bottom:0}.llm-stream{display:flex;align-items:center;gap:8px;font-size:12px}.llm-stream input{accent-color:var(--accent)}.llm-option-note{display:block;font-size:11px;color:#829078;line-height:1.7;margin:8px 0 20px}.llm-options select:disabled{opacity:.45}
 </style>
 <link rel="stylesheet" href="/public/replay.css">
 <link rel="stylesheet" href="/public/ai.css">
 </head>
-<body><div class="app"><header><div class="brand"><img class="brand-icon" src="/public/app-icon.jpg" width="32" height="32" alt="">这咋死的</div><div class="header-note">初始配置</div><div class="header-actions hidden" id="library-actions"><button class="secondary" id="change-folder">修改战斗数据文件夹</button><button class="secondary" id="return-start">返回开始界面</button></div></header><div class="layout"><aside><div class="steps"><div class="step active"><span class="number">01</span><div><strong>欢迎使用</strong></div></div><div class="step"><span class="number">02</span><div><strong>开启战斗记录</strong></div></div><div class="step"><span class="number">03</span><div><strong>连接数据目录</strong></div></div><div class="step"><span class="number">04</span><div><strong>AI 模型配置</strong></div></div></div><div class="aside-bottom"><span>● &nbsp; 界面预览模式</span></div></aside><main><div class="topline"><span class="pill" id="progress"></span></div><p id="subtitle"></p><div class="content" id="content"></div><footer><span class="footer-hint" id="hint"></span><div class="actions"><button class="secondary hidden" id="back">上一步</button><button type="button" class="secondary skip-setup hidden" id="skip-llm">跳过</button><button class="secondary hidden" id="open-path">修改目录</button><button class="primary" id="next"></button></div></footer></main></div></div>
+<body><div class="app"><header><div class="brand"><img class="brand-icon" src="/public/app-icon.jpg" width="32" height="32" alt="">这咋死的</div><div class="header-note">初始配置</div><div class="header-actions hidden" id="library-actions"><button class="secondary" id="change-folder">修改战斗数据文件夹</button><button class="secondary" id="change-ai">修改 AI 配置</button><button class="secondary" id="return-start">返回开始界面</button></div></header><div class="layout"><aside><div class="steps"><div class="step active"><span class="number">01</span><div><strong>欢迎使用</strong></div></div><div class="step"><span class="number">02</span><div><strong>开启战斗记录</strong></div></div><div class="step"><span class="number">03</span><div><strong>连接数据目录</strong></div></div><div class="step"><span class="number">04</span><div><strong>AI 模型配置</strong></div></div></div><div class="aside-bottom"><span>● &nbsp; 界面预览模式</span></div></aside><main><div class="topline"><span class="pill" id="progress"></span></div><p id="subtitle"></p><div class="content" id="content"></div><footer><span class="footer-hint" id="hint"></span><div class="actions"><button class="secondary hidden" id="back">上一步</button><button type="button" class="secondary skip-setup hidden" id="skip-llm">跳过</button><button class="secondary hidden" id="open-path">修改目录</button><button class="primary" id="next"></button></div></footer></main></div></div>
 <dialog id="path-dialog" aria-label="填写数据目录"><div class="dialog-top"><button class="close" aria-label="关闭对话框" id="close">×</button></div><p>粘贴文件夹地址栏中的完整路径。</p><form id="path-form"><label class="input-label" for="directory">数据目录地址</label><input type="text" id="directory" autocomplete="off" spellcheck="false" placeholder="粘贴完整路径，例如 D:\游戏目录\战斗记录" aria-describedby="path-error"><div class="error" id="path-error" role="alert"></div><div class="privacy">仅校验路径格式，不检查目录是否存在。</div><div class="dialog-actions"><button type="button" class="secondary" id="cancel">取消</button><button type="submit" class="primary">保存目录 <span>↗</span></button></div></form></dialog>
-<div id="icon-tooltip" class="icon-tooltip" role="tooltip" tabindex="-1" hidden><strong id="tooltip-label"></strong><p id="tooltip-description"></p><span id="tooltip-reference" hidden>说明含未展开引用</span></div>
+<div id="icon-tooltip" class="icon-tooltip" role="tooltip" tabindex="-1" hidden><strong id="tooltip-label"></strong><p id="tooltip-description"></p><p id="tooltip-source" style="font-size:11px;color:#a8b799;margin-top:12px" hidden></p><span id="tooltip-reference" hidden>说明含未展开引用</span></div>
 <script src="/public/replay-query.js"></script>
 <script src="/public/replay-ui.js"></script>
 <script src="/public/kill-query.js"></script>
 <script src="/public/kill-ui.js"></script>
 <script src="/public/ai-leave-guard.js"></script>
 <script src="/public/ai-chat.js"></script>
+<script src="/public/ai-experiences.js"></script>
 <script src="/public/ai-ui.js"></script>
+<script src="/public/ai-providers.js"></script>
+<script src="/public/ai-config-ui.js"></script>
 <link rel="stylesheet" href="/public/kill.css">
 <script>
 let replayController=null;
 let aiController=null;
 let llmConfig=null;
-let llmDraft={baseUrl:'',model:''};
-JclAI.api('/api/ai/config').then(c=>{llmConfig=c;llmDraft={baseUrl:c.baseUrl||'',model:c.model||''};if(step===3&&!finished&&!$('llm-base-url')?.value)renderLlmSetup()}).catch(()=>{});
+let llmDraft=JclAIConfig.draft();
+let editingLlm=false,setupCompletedSaved=false;
 let step=0,path='',finished=false,recordRequest=0,battleRequest=0,activeBattle=null,battleController=null;const $=id=>document.getElementById(id);const escapeHTML=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const sword='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m5 19 4-4m-3-3 6 6M9 15 19 5l-1-2-3 1L6 13M3 21l3-3"/></svg>',shield='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6zM12 7v10M8 12h8"/></svg>';
 const selected=text=>`<div class="menu-row selected"><span class="check">✓</span>${text}</div>`;
 function guideOptions(){return `<div class="menu-scene"><div class="game-menu">${selected('在名剑大会中启用')}<div class="menu-divider"></div>${selected('保存所有角色记录')}${selected('启用角色对抗模式')}</div></div>`}
 function guide(){return '<div class="guide"><div class="menu-scene"><div class="game-menu"><div class="menu-row">最大历史记录数量 <span style="margin-left:auto">›</span></div><div class="menu-row">最小战斗时间限制 <span style="margin-left:auto">›</span></div><div class="menu-divider"></div><div class="menu-row highlight-row"><span>▱ &nbsp; 打开数据所在目录</span><span>↗</span></div></div></div></div>'}
-function render(){clearReplay();hideIconTooltip();recordRequest++;battleRequest++;if(battleController){battleController.abort();battleController=null}document.querySelector('.app').classList.toggle('library',finished);document.querySelector('.app').classList.toggle('battle-detail',finished&&!!activeBattle);$('library-actions').classList.toggle('hidden',!finished);document.querySelector('.app').classList.toggle('landing',step===0&&!finished);document.querySelector('main').classList.toggle('welcome',step===0&&!finished);document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i===step);el.classList.toggle('done',i<step||finished);el.querySelector('.number').textContent=i<step||finished?'✓':`0${i+1}`});$('progress').textContent=finished?'配置演示完成':`步骤 ${step+1} / 4`;$('back').classList.toggle('hidden',step===0||finished);$('next').disabled=false;$('skip-llm').classList.toggle('hidden',step!==3||finished);$('next').type=step===3&&!finished?'submit':'button';if(step===3&&!finished)$('next').setAttribute('form','llm-form');else $('next').removeAttribute('form');$('open-path').classList.toggle('hidden',step!==2||finished||!isValidDirectory(path));
+function render(){document.querySelector('.header-note').textContent=editingLlm?'修改 AI 配置':'初始配置';clearReplay();hideIconTooltip();recordRequest++;battleRequest++;if(battleController){battleController.abort();battleController=null}document.querySelector('.app').classList.toggle('library',finished);document.querySelector('.app').classList.toggle('battle-detail',finished&&!!activeBattle);$('library-actions').classList.toggle('hidden',!finished);document.querySelector('.app').classList.toggle('landing',step===0&&!finished);document.querySelector('main').classList.toggle('welcome',step===0&&!finished);document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i===step);el.classList.toggle('done',i<step||finished);el.querySelector('.number').textContent=i<step||finished?'✓':`0${i+1}`});$('progress').textContent=finished?'配置演示完成':`步骤 ${step+1} / 4`;$('back').classList.toggle('hidden',step===0||finished);$('next').disabled=false;$('skip-llm').classList.toggle('hidden',step!==3||finished);$('next').type=step===3&&!finished?'submit':'button';if(step===3&&!finished)$('next').setAttribute('form','llm-form');else $('next').removeAttribute('form');$('open-path').classList.toggle('hidden',step!==2||finished||!isValidDirectory(path));
 if(finished&&activeBattle){renderBattlePage(activeBattle);return}
 if(finished){$('subtitle').textContent='';$('content').innerHTML='<div class="library-toolbar"><span id="record-count">正在读取战斗数据…</span><button class="secondary" id="refresh-records">刷新</button></div><div id="record-list" aria-live="polite"></div>';$('refresh-records').onclick=loadRecords;loadRecords();return}
 if(step===0){$('subtitle').textContent='';$('content').innerHTML='<div class="impact-hero"><div class="impact-text">打完了<span>吗？</span></div></div>';$('hint').textContent='';$('next').textContent='开始复盘'}
 if(step===1){$('subtitle').textContent='';$('content').innerHTML=`<div class="entry-path"><span>游戏右侧小扳手</span><i>→</i><span>茗伊插件集</span><i>→</i><span>战斗统计</span><i>→</i><span class="entry-current">战斗事件记录</span></div><div class="setup-panel"><div class="record-switch"><span class="check">✓</span>开启战斗事件记录</div><span class="flow-arrow">↓</span><div class="guide">${guideOptions()}</div><p class="compact-note">在游戏中勾选以上三项</p></div>`;$('hint').textContent='';$('next').innerHTML='我已开启记录并勾选以上三项 <span>→</span>'}
 if(step===2){$('subtitle').textContent='';$('content').innerHTML=`<div class="entry-path"><span>战斗事件记录</span><i>→</i><span class="entry-current">打开数据所在目录</span></div><div class="instruction-grid">${guide(true)}<div class="explain"><p>复制文件夹地址栏中的完整路径。</p><div class="path-box"><label>数据目录</label><div class="path-value">${path?escapeHTML(path):'尚未填写'}</div></div></div></div>`;$('hint').textContent='';$('next').innerHTML=isValidDirectory(path)?'下一步 <span>→</span>':'粘贴目录地址 <span>↗</span>'}
-if(step===3)renderLlmSetup();}
+if(step===3){renderLlmSetup();if(editingLlm){$('progress').textContent='AI 模型配置';$('back').textContent='取消';$('skip-llm').classList.add('hidden');$('next').textContent='保存配置'}}else $('back').textContent='上一步';}
 function renderLlmSetup(){
   $('subtitle').textContent='';$('hint').textContent='';$('next').innerHTML='完成配置 <span>✓</span>';
-  $('content').innerHTML=`<form id="llm-form" class="llm-setup" autocomplete="off"><p class="llm-intro">填写模型服务商提供的连接信息，也可以跳过此步。</p><div class="llm-field"><label for="llm-base-url">Base URL</label><input id="llm-base-url" name="baseUrl" type="url" required placeholder="https://api.example.com/v1" autocomplete="off" spellcheck="false" aria-describedby="llm-url-hint"><small id="llm-url-hint">填写服务商的 API 基础地址，支持 HTTP / HTTPS。</small></div><div class="llm-field"><label for="llm-model">模型名</label><input id="llm-model" name="model" type="text" required placeholder="填写服务商提供的模型名称" autocomplete="off" spellcheck="false"></div><div class="llm-field"><label for="llm-api-key">API Key</label><input id="llm-api-key" name="apiKey" type="password" required placeholder="粘贴 API Key" autocomplete="new-password" spellcheck="false" autocapitalize="off"></div><p class="llm-session-note">配置仅在本次打开期间保留，刷新页面后需要重新填写。</p></form>`;
+  $('content').innerHTML=`<form id="llm-form" class="llm-setup" autocomplete="off"><p class="llm-intro">${editingLlm?'修改后点击保存配置；取消将保留原设置。':'填写模型服务商提供的连接信息，也可以跳过此步。'}</p><div class="llm-field"><label for="llm-base-url">Base URL</label><input id="llm-base-url" name="baseUrl" type="url" required placeholder="https://api.example.com/v1" autocomplete="off" spellcheck="false" aria-describedby="llm-url-hint"><small id="llm-url-hint">填写基础地址或完整接口地址；远程服务使用 HTTPS，本机服务可用 HTTP。</small></div><div class="llm-field"><label for="llm-model">模型名</label><input id="llm-model" name="model" type="text" required placeholder="填写服务商提供的模型名称" autocomplete="off" spellcheck="false"></div><div class="llm-field"><label for="llm-api-key">API Key</label><input id="llm-api-key" name="apiKey" type="password" required placeholder="粘贴 API Key" autocomplete="new-password" spellcheck="false" autocapitalize="off"></div><p class="llm-session-note">配置保存在本机，下次启动自动恢复。</p></form>`;
   $('llm-api-key').required=!llmConfig?.hasApiKey;
   $('llm-api-key').placeholder=llmConfig?.hasApiKey?'已安全保存，留空保持原密钥':'粘贴 API Key';
   document.querySelector('.llm-session-note').textContent='密钥由本机后端加密保存，页面不会读取已保存的密钥。';
@@ -111,11 +115,12 @@ function renderLlmSetup(){
   for(const [key,id] of [['baseUrl','llm-base-url'],['model','llm-model']]){
     const input=$(id);input.value=llmDraft[key];input.oninput=()=>{llmDraft[key]=input.value;input.setCustomValidity('')};
   }
+  JclAIConfig.mount($('llm-form'),llmDraft,llmConfig);
   $('llm-form').onsubmit=event=>{event.preventDefault();saveLlmAndFinish()};
 }
 function readLlmDraft(){
   if(!$('llm-form'))return;
-  llmDraft={baseUrl:$('llm-base-url').value,model:$('llm-model').value};
+  llmDraft=JclAIConfig.read($('llm-form'));
 }
 async function saveLlmAndFinish(){
   if($('next').disabled)return;
@@ -125,18 +130,25 @@ async function saveLlmAndFinish(){
   try{const url=new URL(baseUrl);validUrl=['http:','https:'].includes(url.protocol)&&!!url.hostname&&!url.username&&!url.password}catch{}
   $('llm-base-url').setCustomValidity(validUrl?'':'请输入完整的 HTTP 或 HTTPS 基础地址。');
   $('llm-model').setCustomValidity(model?'':'请填写模型名。');
-  $('llm-api-key').setCustomValidity(apiKey||llmConfig?.hasApiKey?'':'请填写 API Key，或点击跳过。');
+  $('llm-api-key').setCustomValidity(apiKey||!$('llm-api-key').required?'':'请填写此服务的 API Key，或点击跳过。');
   if(!$('llm-form').reportValidity())return;
-  $('next').disabled=true;
-  try{llmConfig=await JclAI.api('/api/ai/config',{baseUrl,model,apiKey});$('llm-api-key').value='';llmDraft={baseUrl,model};finishSetup()}
+  $('next').disabled=true;$('back').disabled=true;$('skip-llm').disabled=true;
+  try{llmConfig=await JclAI.api('/api/ai/config',{...llmDraft,baseUrl,model,apiKey});$('llm-api-key').value='';llmDraft=JclAIConfig.draft(llmConfig);await finishSetup()}
   catch(error){$('llm-save-error').textContent=error.message;$('next').disabled=false}
+  finally{$('back').disabled=false;$('skip-llm').disabled=false}
 }
-function finishSetup(){finished=true;activeBattle=null;render();window.scrollTo(0,0)}
+async function finishSetup(){
+  $('next').disabled=true;$('skip-llm').disabled=true;$('back').disabled=true;
+  try{await JclAI.api('/api/settings',{directory:path,setupCompleted:true});setupCompletedSaved=true;editingLlm=false;finished=true;activeBattle=null;render();window.scrollTo(0,0)}
+  catch(error){$('llm-save-error').textContent=error.message}
+  finally{$('next').disabled=false;$('skip-llm').disabled=false;$('back').disabled=false}
+}
+$('change-ai').onclick=()=>{editingLlm=true;llmDraft=JclAIConfig.draft(llmConfig||{});step=3;finished=false;activeBattle=null;render()};
 function openDialog(){$('directory').value=path;$('path-error').textContent='';$('directory').removeAttribute('aria-invalid');$('path-dialog').showModal();$('directory').focus()}
 $('return-start').onclick=()=>{finished=false;activeBattle=null;step=0;render()};
 $('open-path').onclick=openDialog;
 $('change-folder').onclick=openDialog;
-$('next').onclick=event=>{event.preventDefault();if(!finished&&step===3){saveLlmAndFinish();return}if(finished){step=0;finished=false}else if(step<2)step++;else if(isValidDirectory(path)){step=3}else{openDialog();return}render()};$('back').onclick=()=>{if(step===3)readLlmDraft();step=Math.max(0,step-1);render()};$('skip-llm').onclick=()=>{readLlmDraft();finishSetup()};$('close').onclick=$('cancel').onclick=()=>$('path-dialog').close();$('path-form').onsubmit=e=>{e.preventDefault();const value=$('directory').value.trim().replace(/^"(.*)"$/,'$1');if(!isValidDirectory(value)){$('path-error').textContent='请输入合法的完整目录路径，不可包含 < > : " | ? * 等非法字符。';$('directory').setAttribute('aria-invalid','true');return}path=value.replace(/\//g,'\\');$('path-dialog').close();activeBattle=null;render()};
+$('next').onclick=event=>{event.preventDefault();if(!finished&&step===3){saveLlmAndFinish();return}if(finished){step=0;finished=false}else if(step<2)step++;else if(isValidDirectory(path)){step=3}else{openDialog();return}render()};$('back').onclick=()=>{if(editingLlm){editingLlm=false;finished=true;render();return}if(step===3)readLlmDraft();step=Math.max(0,step-1);render()};$('skip-llm').onclick=()=>{readLlmDraft();finishSetup()};$('close').onclick=$('cancel').onclick=()=>$('path-dialog').close();$('path-form').onsubmit=async e=>{e.preventDefault();const value=$('directory').value.trim().replace(/^"(.*)"$/,'$1');if(!isValidDirectory(value)){$('path-error').textContent='请输入合法的完整目录路径，不可包含 < > : " | ? * 等非法字符。';$('directory').setAttribute('aria-invalid','true');return}const submit=$('path-form').querySelector('[type=submit]');if(submit.disabled)return;submit.disabled=true;try{const saved=await JclAI.api('/api/settings',{directory:value,setupCompleted:finished||setupCompletedSaved});path=saved.directory;$('path-dialog').close();activeBattle=null;render()}catch(error){$('path-error').textContent=error.message}finally{submit.disabled=false}};
 function isValidDirectory(value){
   if(!value||/[\x00-\x1f<>"|?*]/.test(value))return false;
   const normalized=value.replace(/\//g,'\\');
@@ -170,9 +182,9 @@ async function loadRecords(){
     $('fix-directory').onclick=()=>{finished=false;step=2;render();openDialog()};
   }finally{if(request===recordRequest&&finished)$('refresh-records').disabled=false}
 }
-function iconControl({url,label,description='',references=false,kind='talent'}){
+function iconControl({url,label,description='',references=false,kind='talent',sourceNote=''}){
   const local=typeof url==='string'&&/^\/api\/icons\/(std|origin)\/[1-9]\d*\.png(?:\?offline=1)?$/.test(url)?url:null;
-  return `<button type="button" class="card-icon ${kind}-icon${local?'':' icon-fallback'}" aria-label="${escapeHTML(label)}" data-icon-label="${escapeHTML(label)}" data-icon-description="${escapeHTML(description|| (kind==='talent'?'暂无详细说明':''))}" data-icon-references="${references?'true':'false'}">${local?`<img src="${escapeHTML(local)}" alt="${escapeHTML(label)}" loading="lazy" decoding="async">`:''}<span class="icon-fallback-text"${local?' hidden':''}>${escapeHTML(label)}</span></button>`;
+  return `<button type="button" class="card-icon ${kind}-icon${local?'':' icon-fallback'}" aria-label="${escapeHTML(label)}" data-icon-label="${escapeHTML(label)}" data-icon-description="${escapeHTML(description|| (kind==='talent'?'暂无详细说明':''))}" data-icon-source="${escapeHTML(sourceNote||'')}" data-icon-references="${references?'true':'false'}">${local?`<img src="${escapeHTML(local)}" alt="${escapeHTML(label)}" loading="lazy" decoding="async">`:''}<span class="icon-fallback-text"${local?' hidden':''}>${escapeHTML(label)}</span></button>`;
 }
 function playerCard(player){
   const unknown=player.maxHp==null;
@@ -184,7 +196,7 @@ function playerCard(player){
   return `<article class="player-card${unknown?' hp-unknown':''}${player.isFirstKillVictim?' is-killed':''}" data-player-id="${escapeHTML(player.id||'')}">
     <div class="player-top"><div class="player-identity">${iconControl({url:player.kungfuIconUrl,label:kungfuName,kind:'kungfu'})}<div class="player-name-block"><div class="player-name">${escapeHTML(player.name||'姓名未知')}</div>${player.isFirstKillVictim?'<span class="death-badge" title="本局首个被击杀的玩家">被击杀</span>':''}</div></div><div class="score-block"><span class="score-label">装分</span><strong class="score-value${scoreUnknown?' value-unknown':''}">${escapeHTML(player.equipScoreText??'未知')}</strong></div></div>
     <div class="health-line"><span>最大血量</span><span class="hp-value">${escapeHTML(player.maxHpText??'未知')}</span><span class="evidence-chip${backfilled?' backfilled':''}${unknown?' unresolved':''}">${escapeHTML(note)}</span>${player.hpSnapshotInconsistent?'<span class="evidence-chip discrepancy" title="该快照当前血量大于记录的最大血量；此处保留日志中的最大血量原值。">快照有差异</span>':''}</div>
-    <div class="talent-section"><div class="talent-caption"><span>奇穴</span>${player.talentStatus==='partial'?'<span class="talent-status">奇穴记录不完整</span>':''}${player.talentSchemeChanged?'<span class="talent-status">日志中有方案变化</span>':''}${player.equipScoreChanged?'<span class="talent-status">日志中有装分变化</span>':''}</div><div class="talent-icons">${talents.length?talents.map(talent=>iconControl({url:talent.iconUrl,label:talent.label||'奇穴未知',description:talent.description,references:talent.descriptionHasReferences})).join(''):'<span class="talents-unknown">奇穴未知</span>'}</div></div>
+    <div class="talent-section"><div class="talent-caption"><span>奇穴</span>${player.talentStatus==='partial'?'<span class="talent-status">奇穴记录不完整</span>':''}${player.talentSchemeChanged?'<span class="talent-status">日志中有方案变化</span>':''}${player.equipScoreChanged?'<span class="talent-status">日志中有装分变化</span>':''}</div><div class="talent-icons">${talents.length?talents.map(talent=>iconControl({url:talent.iconUrl,label:talent.label||'奇穴未知',description:talent.description,references:talent.descriptionHasReferences,sourceNote:talent.sourceNote})).join(''):'<span class="talents-unknown">奇穴未知</span>'}</div></div>
   </article>`;
 }
 function firstKillBanner(firstKill){
@@ -319,6 +331,8 @@ function showIconTooltip(control){
   $('tooltip-description').textContent=control.dataset.iconDescription;
   $('tooltip-description').hidden=!control.dataset.iconDescription;
   $('tooltip-reference').hidden=control.dataset.iconReferences!=='true';
+  $('tooltip-source').textContent=control.dataset.iconSource||'';
+  $('tooltip-source').hidden=!control.dataset.iconSource;
   $('icon-tooltip').hidden=false;
   if(changed)$('icon-tooltip').scrollTop=0;
   control.setAttribute('aria-describedby','icon-tooltip');
@@ -354,5 +368,13 @@ function initIconTooltip(){
 }
 
 initIconTooltip();
-render();
+async function restoreSettings(){
+  $('content').innerHTML='<div class="battle-loading">正在读取本机配置…</div>';$('next').disabled=true;
+  try{
+    const [settings,config]=await Promise.all([JclAI.api('/api/settings'),JclAI.api('/api/ai/config')]);
+    setupCompletedSaved=settings.setupCompleted;path=settings.directory||'';finished=settings.setupCompleted&&isValidDirectory(path);
+    llmConfig=config;llmDraft=JclAIConfig.draft(config);render();
+  }catch(error){$('content').innerHTML='<p role="alert">'+escapeHTML(error.message)+'</p><button class="secondary" id="retry-settings">重试读取配置</button>';$('retry-settings').onclick=restoreSettings;}
+}
+restoreSettings();
 </script></body></html>

@@ -2,6 +2,39 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
+    "gameplayReference": {
+      "type": "object",
+      "required": ["entryId", "spec", "scene", "citations", "catalogHash"],
+      "properties": {
+        "entryId": { "type": "string", "pattern": "^[A-Z]+-[DC][0-9]+$" },
+        "spec": { "type": "string", "maxLength": 80 },
+        "scene": { "enum": ["other_pvp_only", "basic_demo_level_30", "arena_or_general_pvp_reference"] },
+        "catalogHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "citations": { "type": "array", "minItems": 1, "maxItems": 20, "items": {
+          "type": "object", "required": ["bvid", "part", "startSeconds", "endSeconds", "url", "timeLabel"],
+          "properties": {
+            "bvid": { "type": "string", "pattern": "^BV[A-Za-z0-9]+$" },
+            "part": { "type": "integer", "minimum": 1 },
+            "startSeconds": { "type": "integer", "minimum": 0 },
+            "endSeconds": { "type": "integer", "minimum": 1 },
+            "url": { "type": "string", "pattern": "^https://www\\.bilibili\\.com/video/BV[A-Za-z0-9]+/\\?p=[0-9]+&t=[0-9]+$" },
+            "timeLabel": { "type": "string", "maxLength": 80 }
+          }
+        }}
+      }
+    },
+    "collection": {
+      "enum": [
+        "game_fact",
+        "ai_experience"
+      ]
+    },
+    "priority": {
+      "enum": [
+        "primary",
+        "reference"
+      ]
+    },
     "schemaVersion": {
       "const": "jx3.ai-knowledge.v1"
     },
@@ -121,6 +154,11 @@
       },
       "minItems": 0,
       "maxItems": 20
+    },
+    "resourceFetchedAt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
     },
     "conditions": {
       "type": "array",
@@ -311,6 +349,15 @@
   "$id": "urn:jx3:ai-knowledge:v1",
   "allOf": [
     {
+      "if": { "required": ["gameplayReference"] },
+      "then": { "properties": {
+        "collection": { "const": "game_fact" },
+        "kind": { "const": "tactic_hypothesis" },
+        "status": { "enum": ["sourced", "deprecated", "rejected", "conflicted"] },
+        "review": { "type": "null" }
+      }, "required": ["collection"] }
+    },
+    {
       "if": {
         "properties": {
           "status": {
@@ -322,6 +369,56 @@
         "properties": {
           "review": {
             "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "collection"
+        ],
+        "properties": {
+          "collection": {
+            "const": "game_fact"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "priority": {
+            "const": "primary"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "collection"
+        ],
+        "properties": {
+          "collection": {
+            "const": "ai_experience"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "priority": {
+            "const": "reference"
+          },
+          "status": {
+            "enum": [
+              "candidate",
+              "sourced",
+              "conflicted",
+              "deprecated",
+              "rejected"
+            ]
+          },
+          "review": {
+            "type": "null"
           }
         }
       }

@@ -24,6 +24,7 @@ function createServer(options = {}) {
   const port = options.port ?? 4173;
   if (!Number.isInteger(port) || port < 0 || port > 65535) throw new Error('预览端口必须为 0 至 65535 的整数（0 为系统分配）。');
   const aiRoutes = require('./lib/ai/routes.cjs').routes(options.aiOptions);
+  const settings = require('./lib/settings.cjs').createSettingsStore(options.settingsFile);
   const server = http.createServer(async (req, res) => {
     const boundPort = port === 0 ? server.address()?.port : port;
     const allowedHost = `127.0.0.1:${boundPort}`, allowedOrigin = `http://${allowedHost}`;
@@ -33,6 +34,15 @@ function createServer(options = {}) {
     };
     if (req.headers.host !== allowedHost) return send(403, { error: '请从本地预览页面访问。' });
     try {
+      if (req.url === '/api/settings' && ['GET', 'POST'].includes(req.method)) {
+        if (req.headers['x-preview-client'] !== 'jx3' || (req.headers.origin && req.headers.origin !== allowedOrigin) || req.headers['sec-fetch-site'] === 'cross-site') return send(403, { error: '不允许此来源访问。' });
+        try {
+          if (req.method === 'GET') return send(200, await settings.load());
+          let body = '';
+          for await (const chunk of req) { body += chunk; if (body.length > 16384) return send(413, { error: '配置内容过长。' }); }
+          return send(200, await settings.save(JSON.parse(body)));
+        } catch { return send(400, { error: '无法读取或保存本地配置，请检查路径格式及配置文件权限后重试。' }); }
+      }
       if (await aiRoutes(req, res, allowedOrigin)) return;
       if (req.method === 'GET' && req.url.startsWith('/api/icons/')) {
         if (req.headers['sec-fetch-site'] === 'cross-site' || (req.headers.origin && req.headers.origin !== allowedOrigin)) return send(403, { error: '不允许此来源访问。' });
@@ -97,7 +107,7 @@ function createServer(options = {}) {
           'Cross-Origin-Resource-Policy': 'same-origin' });
         return res.end(bytes);
       }
-      if (req.method === 'GET' && ['/public/replay-query.js', '/public/replay-ui.js', '/public/replay.css', '/public/kill-query.js', '/public/kill-ui.js', '/public/kill.css', '/public/ai-leave-guard.js', '/public/ai-chat.js', '/public/ai-ui.js', '/public/ai.css'].includes(req.url)) {
+      if (req.method === 'GET' && ['/public/replay-query.js', '/public/replay-ui.js', '/public/replay.css', '/public/kill-query.js', '/public/kill-ui.js', '/public/kill.css', '/public/ai-leave-guard.js', '/public/ai-chat.js', '/public/ai-experiences.js', '/public/ai-ui.js', '/public/ai-providers.js', '/public/ai-config-ui.js', '/public/ai.css'].includes(req.url)) {
         res.writeHead(200, { 'Content-Type': req.url.endsWith('.css') ? 'text/css; charset=utf-8' : 'text/javascript; charset=utf-8',
           'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
         return res.end(await fs.readFile(path.join(__dirname, req.url.slice(1))));

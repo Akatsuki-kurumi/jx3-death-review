@@ -4,14 +4,29 @@
  const fallback={team_unavailable:'双方归属无法可靠确定',two_dps_unavailable:'无法确认击杀方两名输出',max_hp_unavailable:'击杀前没有有效最大血量快照',threshold_not_reached:'已记录伤害未达到 150% 阈值'};
  const actions={gained:'获得',observed_existing:'记录已有',refreshed:'刷新',removed:'移除',stack_changed:'层数变化'};
  function person(model,id){const p=model.players.find(p=>p.id===id);return p?U.actorHtml({kind:'player',entityId:p.id,playerId:p.id,name:p.name,kungfuName:p.kungfuName,iconUrl:p.iconUrl}):`【${esc(id?`玩家 ID ${id}`:'未知玩家')}】`}
- function evidence(row){return `<details class="kill-evidence"><summary>第 ${row.line} 行 · Buff ${row.buffId}:${row.level}</summary><pre>${esc(JSON.stringify(row,null,2))}</pre></details>`}
+ function dictionarySourceHtml(dictionary){
+  const versions=Array.isArray(dictionary?.sourceVersions)?dictionary.sourceVersions.filter(v=>typeof v==='string'&&v.trim()):[];
+  return versions.length?`<p class="kill-dictionary-source">标签参考：${esc(versions.join('、'))} 目标监控。</p>`:'';
+ }
+ function evidence(row){
+  const d=row.dictionary,versions=Array.isArray(d?.sourceVersions)?d.sourceVersions.join('、'):null;
+  const matches={exact:'精确等级',monitor_level_zero_wildcard:'监控等级 0 通配',exact_and_monitor_wildcard:'精确等级与监控等级 0 通配'};
+  const condition=d?.conditionStatus==='stack_checked_other_monitor_filters_not_evaluated'?'已核对叠层；其他监控条件未核验。':'监控条件核验状态未知。';
+  const mechanism=d?.mechanicsVerified===false?'机制未独立核验。':d?.mechanicsVerified===true?'机制有独立核验；仍需核对本局适用条件。':'机制核验状态未知。';
+  // Keep only evidence fields needed for this observation, never dump source hashes or paths.
+  const record={atMs:row.atMs,line:row.line,playerId:row.playerId,entityId:row.entityId,buffId:row.buffId,level:row.level,stack:row.stack,previousStack:row.previousStack,sourceEntityId:row.sourceEntityId,index:row.index,endFrame:row.endFrame,action:row.action,rawFlags:row.rawFlags};
+  return `<details class="kill-evidence"><summary>第 ${esc(row.line)} 行 · Buff ${esc(row.buffId)}:${esc(row.level)}</summary><p>${versions?`标签来源：${esc(versions)}。`:'标签来源版本未知。'}${d?` 匹配方式：${esc(matches[d.match]||'未知')}。`:''}</p><p>${condition}${mechanism}</p><pre>${esc(JSON.stringify(record,null,2))}</pre></details>`;
+ }
  function buffRow(model,row,kind){
   const name=row.name||row.dictionary?.name||`Buff ID ${row.buffId}`;
   const action=row.action==='stack_changed'?`层数由 ${num(row.previousStack)} 变为 ${num(row.stack)}`:actions[row.action]||'记录';
-  let note=kind==='control'?`效果可能为：${(row.matchedLabels||[]).join('、')}`:row.heavyWound?'下一次受到的治疗可能无效；不表示整个窗口持续禁疗':row.direction==='outgoing_healing'?'可能降低施加治疗的能力（独立语义补充）':row.candidateDirection==='received_healing'?'描述疑似影响受到的治疗，方向待核实；不等于降低施加治疗的能力':'作用方向待核实';
+  let note=kind==='control'?`效果可能为：${(row.matchedLabels||[]).join('、')||'未知'}`:kind==='observation'?'仅为 Buff 状态记录；监控标签不代表已证明技能施放或效果。':row.direction==='received_healing'?(row.heavyWound?'下一次受到的治疗可能无效；不表示整个窗口持续禁疗':'可能影响受到的治疗'):row.direction==='outgoing_healing'?'可能降低施加治疗的能力':row.candidateDirection==='received_healing'?'描述疑似影响受到的治疗，方向待核实；不等于降低施加治疗的能力':'作用方向待核实';
+  const basis={reviewed_id_level_override:'依据：已核对的 ID／等级语义补充。',reviewed_heavy_wound:'依据：已核对的重创语义。',description_candidate:'依据：资料描述候选，方向尚未核实。',monitor_tag_only:'依据：监控标签，作用方向未知。'};
+  if(kind==='healing')note+=`。${basis[row.semanticBasis]||'方向依据未知。'}`;
   if(row.action==='removed')note=`已记录此实例移除。${note}`;
   const change=row.action==='stack_changed'?`的「<strong>${esc(name)}</strong>」${esc(action)}`:`${esc(action)}「<strong>${esc(name)}</strong>」${row.action==='removed'?'':`（${num(row.stack)} 层）`}`;
-  return `<article class="kill-buff-row" data-at-ms="${row.atMs}" data-line="${row.line}"><div><time>开战后 ${time(row.atMs)} 秒</time> ${person(model,row.playerId)}${change}。</div><p>${esc(note)}</p>${row.description?`<details class="kill-description"><summary>资料说明 · 历史版本未核实</summary><p>${esc(row.description)}</p>${/<[A-Z]/.test(row.description)?'<small>说明含未展开引用</small>':''}</details>`:''}${evidence(row)}</article>`;
+  const categories=Array.isArray(row.dictionary?.categories)?row.dictionary.categories:[];
+  return `<article class="kill-buff-row" data-at-ms="${row.atMs}" data-line="${row.line}"><div><time>开战后 ${time(row.atMs)} 秒</time> ${person(model,row.playerId)}${change}。</div><p>${esc(note)}</p><p class="kill-buff-tags">监控标签：${esc(categories.join('、')||'未知')}</p>${row.description?`<details class="kill-description"><summary>资料说明 · 历史版本未核实</summary><p>${esc(row.description)}</p>${/<[A-Z]/.test(row.description)?'<small>说明含未展开引用</small>':''}</details>`:''}${evidence(row)}</article>`;
  }
  function distanceChart(distance,w){
   const messages={victim_is_healer:'被击杀者本身是奶妈，跳过与同队奶妈的距离分析。',healer_unavailable:'无法确认同队奶妈，距离未知。',multiple_healers:'识别到多名治疗角色，暂无法唯一确定比较对象。',coordinates_unavailable:'日志缺少可用坐标，无法计算距离。',no_kill:'没有可识别的首个玩家击杀。'};
@@ -38,7 +53,7 @@
   const hp=w.maxHpRef,c=a.coverage;
   const summary=w.selectedBy==='damage_150_percent'?'累计有效伤害达到 150% 的时刻更接近击杀':'采用击杀前 10 秒';
   const groups=[['victim','被击杀者 · 受到的治疗'],['healerOutgoing','同队奶妈 · 施加治疗能力'],['healerIncoming','同队奶妈 · 受到的治疗（单独列示）']];
-  container.innerHTML=`<div class="kill-window"><div><span class="kill-eyebrow">固定分析窗口</span><strong>${time(w.startAtMs)} <span>—</span> ${time(w.killAtMs)} 秒</strong><p>${person(model,w.victimId)} · ${esc(summary)}</p></div><details class="kill-evidence"><summary>窗口依据与数据覆盖</summary><p>${w.fallbackReason?`回退原因：${esc(fallback[w.fallbackReason]||w.fallbackReason)}。`:'按两名输出对被击杀者的有效伤害累计，包含可靠归属宠物及数值型 DOT。'}</p><p>最大血量 ${num(hp?.value)}${hp?` · ${time(hp.atMs)} 秒，第 ${hp.line} 行，距击杀 ${time(hp.ageMs)} 秒${hp.stale?' · 快照陈旧，仅作阈值依据':''}`:''}。</p><p>150% 阈值 ${num(w.threshold)}${w.crossing?` · 向前累计在 ${time(w.crossing.atMs)} 秒达到 ${num(w.crossing.cumulativeDamage)}（第 ${w.crossing.line} 行）`:''}。</p><p>控制／治疗干扰：${time(w.buffStartAtMs)}—${time(w.killAtMs)} 秒；截至首杀第 ${w.killLine} 行。</p><p>无法匹配本地标签的 Buff 记录 ${c.unmatchedBuffCount} 条；有效治疗数值缺失 ${c.unknownEffectiveHealing} 条，不补为 0。资料历史版本尚未核实。</p><pre>${esc(JSON.stringify({roles:{attackers:w.attackerIds,healers:w.healerIds},coverage:c,warnings:a.warnings},null,2))}</pre></details></div>
+  container.innerHTML=`<div class="kill-window"><div><span class="kill-eyebrow">固定分析窗口</span><strong>${time(w.startAtMs)} <span>—</span> ${time(w.killAtMs)} 秒</strong><p>${person(model,w.victimId)} · ${esc(summary)}</p>${dictionarySourceHtml(a.dictionary)}</div><details class="kill-evidence"><summary>窗口依据与数据覆盖</summary><p>${w.fallbackReason?`回退原因：${esc(fallback[w.fallbackReason]||w.fallbackReason)}。`:'按两名输出对被击杀者的有效伤害累计，包含可靠归属宠物及数值型 DOT。'}</p><p>最大血量 ${num(hp?.value)}${hp?` · ${time(hp.atMs)} 秒，第 ${hp.line} 行，距击杀 ${time(hp.ageMs)} 秒${hp.stale?' · 快照陈旧，仅作阈值依据':''}`:''}。</p><p>150% 阈值 ${num(w.threshold)}${w.crossing?` · 向前累计在 ${time(w.crossing.atMs)} 秒达到 ${num(w.crossing.cumulativeDamage)}（第 ${w.crossing.line} 行）`:''}。</p><p>控制／治疗干扰：${time(w.buffStartAtMs)}—${time(w.killAtMs)} 秒；截至首杀第 ${w.killLine} 行。</p><p>无法匹配本地标签的 Buff 记录 ${c.unmatchedBuffCount} 条；有效治疗数值缺失 ${c.unknownEffectiveHealing} 条，不补为 0。资料历史版本尚未核实。</p><pre>${esc(JSON.stringify({roles:{attackers:w.attackerIds,healers:w.healerIds},coverage:c,warnings:a.warnings},null,2))}</pre></details></div>
    <div class="kill-scrubber"><button type="button" class="secondary kill-play">播放</button><label>开战后 <input type="number" class="kill-time" aria-label="击杀分析秒数" min="${w.startAtMs/1000}" max="${w.killAtMs/1000}" step="0.001" value="${time(w.startAtMs)}"> 秒</label><input class="kill-range" type="range" aria-label="击杀分析时间" min="${w.startAtMs}" max="${w.killAtMs}" value="${w.startAtMs}" step="1"><button type="button" class="secondary kill-end">到击杀</button></div>
    <section class="kill-module" aria-labelledby="kill-feed-heading"><h2 id="kill-feed-heading"><small>01</small>战斗信息回放</h2><p class="kill-note">仅显示技能的正有效伤害与明确有效治疗，包含 0 治疗。Buff 效果不在此栏展示。</p><div class="kill-replay"></div></section>
    <section class="kill-module" aria-labelledby="kill-control-heading"><h2 id="kill-control-heading"><small>02</small>控制分析 <span>${time(w.buffStartAtMs)}—${time(w.killAtMs)} 秒</span></h2><p class="kill-note">按本地监控标签列示可能的限制效果，不代表已证明控制成功。${c.healerStatus!=='identified'?'同队奶妈尚无法唯一确认。':''}</p><div class="kill-buff-list">${a.control.length?a.control.map(r=>buffRow(model,r,'control')).join(''):'<p class="kill-empty">该窗口未记录到可识别的限制类 Buff。</p>'}</div></section>
@@ -61,5 +76,5 @@
   U.bindIcons(container);
   return {setTime:seek,getTime:replay.getTime,pause:replay.pause,destroy(){replay.destroy();container.replaceChildren()}};
  }
- return {mount,buffRow,distanceChart};
+ return {mount,buffRow,distanceChart,dictionarySourceHtml};
 });

@@ -22,6 +22,9 @@ test('desktop navigation and CSP allow only its origin and current inline script
   const html = '<script>console.log(1)</script><script src="/public/ai-ui.js"></script>', policy = contentSecurityPolicy(html);
   assert(policy.includes("script-src 'self' 'sha256-")); assert(!policy.includes("script-src 'self' 'unsafe-inline'")); assert(policy.includes("connect-src 'self'"));
   assert.notEqual(policy, contentSecurityPolicy(html.replace('log(1)', 'log(2)')));
+  const multiline='<script>\nconsole.log(1)\n</script>';
+  assert.equal(contentSecurityPolicy(multiline),contentSecurityPolicy(multiline.replace(/\n/g,'\r\n')));
+  assert.equal(contentSecurityPolicy(multiline),contentSecurityPolicy(multiline.replace(/\n/g,'\r')));
 });
 
 test('system-assigned desktop port retains exact Host, Origin and request-header checks', async t => {

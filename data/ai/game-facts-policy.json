@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "revision": "2026-11-04.2",
+  "clients": {
+    "std": { "version": "std-2026-10-30", "label": "2026-10-30 起的维护资料版本（内部标识）", "validFrom": "2026-10-30T00:00:00+09:00" },
+    "origin": { "version": "origin-unversioned", "label": "怀旧服，尚未指定游戏版本", "validFrom": null }
+  },
+  "note": "维护资料隔离标识，不是推测的官方赛季名称。换季由维护者更新版本、日期和事实包，用户界面无修改入口。"
+}

@@ -6,7 +6,9 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const os = require('node:os');
 const { analyzeJcl, readJclBattle, toBattleViewModel } = require('../lib/jcl/battle.cjs');
-const { resolveTalents } = require('../lib/jcl/talents.cjs');
+const { resolveTalents: resolveResourceTalents } = require('../lib/jcl/talents.cjs');
+// These tests isolate the resource API; versioned supplements have their own tests.
+const resolveTalents = (input, options) => resolveResourceTalents(input, { simulatorFallback: false, ...options });
 
 function fixture(records) {
   const events = [[1, '{true,"test::U900000000000000001/1"}', 1000],
@@ -121,7 +123,7 @@ test('batch joins exact levels, separates fallback provenance, rejects substitut
   assert.equal(offline.entries['88_1'].metadataStatus, 'unavailable');
 });
 
-test('service failure retains expired cached names and applies retry backoff', async t => {
+test('service failure discards pre-update cached names and applies retry backoff', async t => {
   const cacheDir = await temp(t);
   await fs.writeFile(path.join(cacheDir, 'talents-std.json'), JSON.stringify({ version: 1, client: 'std', entries: {
     '5891_1': { resource: { SkillID: 5891, Level: 1, Name: '旧缓存名称' }, fetchedAt: '2000-01-01T00:00:00Z', sourceUrl: 'cached' },
@@ -133,8 +135,9 @@ test('service failure retains expired cached names and applies retry backoff', a
   const b = await resolveTalents(input, { cacheDir, fetchImpl });
   assert.equal(calls, 1);
   assert.equal(a.meta.status, 'degraded');
-  assert.equal(a.entries['5891_1'].metadataStatus, 'stale_cache');
-  assert.equal(b.entries['5891_1'].name, '旧缓存名称');
+  assert.equal(a.entries['5891_1'].metadataStatus, 'unavailable');
+  assert.equal(b.entries['5891_1'].name, null);
+  assert.equal(JSON.parse(await fs.readFile(path.join(cacheDir, 'talents-std.json'), 'utf8')).entries['5891_1'], undefined);
   assert.equal(b.entries['88_1'].label, '奇穴 88');
 });
 
@@ -162,7 +165,7 @@ test('readJclBattle returns resolved initial and changed loadouts; view and disa
     return response(url.includes('10080_0') ? [{ SkillID: 10080, Level: 0, Name: '云裳心经' }]
       : [{ SkillID: 5891, Level: 1, Name: '秋深', Desc: '说明' }, { SkillID: 18210, Level: 1, Name: '承清' }]);
   };
-  const b = await readJclBattle(file, { cacheDir, fetchImpl });
+  const b = await readJclBattle(file, { cacheDir, fetchImpl, simulatorFallback: false });
   const card = toBattleViewModel(b).unassignedPlayers[0];
   assert.equal(b.schemaVersion, '1.5.0');
   assert.equal(calls, 2);
@@ -171,6 +174,8 @@ test('readJclBattle returns resolved initial and changed loadouts; view and disa
   assert.equal(card.maxHpText, '2,000');
   assert.equal(card.talentSummary, '秋深');
   assert.equal(card.talents[0].description, '说明');
+  assert.equal(card.talents[0].fetchedAt, b.players[0].talents[0].fetchedAt);
+  assert.ok(Date.parse(card.talents[0].fetchedAt) > Date.parse('2026-10-29T23:59:59+09:00'));
   assert.equal(card.talentSchemeChanged, true);
   assert.equal(card.equipScoreChanged, true);
   assert.equal(b.players[0].talentLoadout.changes[1].entries[0].name, '承清');

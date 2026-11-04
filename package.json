@@ -1,7 +1,7 @@
 {
   "name": "zhe-zha-si-de",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "author": "Akatsuki-kurumi",
   "scripts": {
@@ -20,5 +20,6 @@
   },
   "productName": "这咋死的",
   "description": "剑网三竞技场战斗复盘工具",
-  "main": "desktop/main.cjs"
+  "main": "desktop/main.cjs",
+  "distribution": "open-source"
 }

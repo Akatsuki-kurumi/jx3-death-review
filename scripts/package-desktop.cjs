@@ -26,7 +26,7 @@ const { seedCache } = require('../desktop/cache.cjs');
     for (const filename of ['index.html', 'preview-server.cjs', 'LICENSE', 'THIRD_PARTY_NOTICES.md']) await fs.copyFile(path.join(root, filename), path.join(staging, filename));
     if (!openSource) await seedCache(path.join(root, 'cache/jcl'), path.join(staging, 'cache/jcl'));
     const { devDependencies, scripts, ...production } = manifest;
-    await fs.writeFile(path.join(staging, 'package.json'), JSON.stringify({ ...production, author: production.author ?? '' }, null, 2));
+    await fs.writeFile(path.join(staging, 'package.json'), JSON.stringify({ ...production, distribution:openSource?'open-source':'local', author: production.author ?? '' }, null, 2));
     const copied = new Map();
     async function copyDependency(name, parent) {
       const source = path.dirname(require.resolve(name + '/package.json', { paths: [parent] }));

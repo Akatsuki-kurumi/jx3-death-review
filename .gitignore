@@ -31,3 +31,10 @@ dist/
 
 # Local clean-source verification directory.
 /.open-source-check/
+
+# Maintainer-only compilation inputs are not part of the public source.
+/scripts/build-gameplay-reference.cjs
+# Runtime configuration is never a source artifact.
+app-settings.json
+model-config.json
+ai-knowledge/
